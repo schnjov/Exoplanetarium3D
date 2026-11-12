@@ -1,0 +1,579 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "koi-94",
+  "name": "KOI-94",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 141399','HD 160691','HD 164922','HD 20781','HD 20794','HD 215152','HD 3167','HR 8799','K2-133','K2-187','K2-266','K2-285','K2-32','K2-72','KOI-94','Kepler-100','Kepler-106','Kepler-107','Kepler-132','Kepler-138','Kepler-1388','Kepler-1542','Kepler-164','Kepler-167','Kepler-172','Kepler-176','Kepler-197','Kepler-1987','Kepler-208','Kepler-215','Kepler-220','Kepler-221','Kepler-223','Kepler-224','Kepler-235','Kepler-24','Kepler-245','Kepler-247','Kepler-251','Kepler-256','Kepler-26','Kepler-265','Kepler-279','Kepler-282','Kepler-286','Kepler-289','Kepler-299','Kepler-304','Kepler-305','Kepler-306') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 297.3330716,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Weiss et al. 2013",
+        "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 41.8911186,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Weiss et al. 2013",
+        "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 477.052,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 5.0,
+        "minus": -4.899
+      },
+      "source": {
+        "label": "Weiss et al. 2013",
+        "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "KOI-94",
+    "attributes": {
+      "radiusSolar": {
+        "value": 1.52,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.14,
+          "minus": -0.14
+        },
+        "source": {
+          "label": "Weiss et al. 2013",
+          "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.277,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.05,
+          "minus": -0.05
+        },
+        "source": {
+          "label": "Weiss et al. 2013",
+          "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 6182.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 58.0,
+          "minus": -58.0
+        },
+        "source": {
+          "label": "Weiss et al. 2013",
+          "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "koi-94-b",
+      "name": "KOI-94 b",
+      "letter": "b",
+      "discoveryYear": 2013,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 1.71,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.16,
+            "minus": -0.16
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 10.5,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 4.6,
+            "minus": -4.6
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 3.743208,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.5e-05,
+            "minus": -1.5e-05
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.05119,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00067,
+            "minus": -0.00067
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.25,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.17,
+            "minus": -0.17
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.3,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.57,
+            "minus": -0.57
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 1486.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "koi-94-c",
+      "name": "KOI-94 c",
+      "letter": "c",
+      "discoveryYear": 2013,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 4.32,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.41,
+            "minus": -0.41
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 15.6,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 5.7,
+            "minus": -15.6
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 10.423648,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.6e-05,
+            "minus": -1.6e-05
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.1013,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0013,
+            "minus": -0.0013
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.43,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.23,
+            "minus": -0.23
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 88.36,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.75,
+            "minus": -0.75
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 1012.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "koi-94-d",
+      "name": "KOI-94 d",
+      "letter": "d",
+      "discoveryYear": 2013,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 11.27,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.06,
+            "minus": -1.06
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 106.0,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 11.0,
+            "minus": -11.0
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 22.342989,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 6.7e-06,
+            "minus": -6.7e-06
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.1684,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0022,
+            "minus": -0.0022
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.022,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.038,
+            "minus": -0.038
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.871,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.123,
+            "minus": -0.123
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 806.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "koi-94-e",
+      "name": "KOI-94 e",
+      "letter": "e",
+      "discoveryYear": 2013,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.91670438,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 6.56,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.62,
+            "minus": -0.62
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 35.0,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 18.0,
+            "minus": -28.0
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 54.32031,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00012,
+            "minus": -0.00012
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.3046,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.004,
+            "minus": -0.004
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.019,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.23,
+            "minus": -0.23
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.76,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.15,
+            "minus": -0.15
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 584.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Weiss et al. 2013",
+            "url": "https://ui.adsabs.harvard.edu/abs/2013ApJ...768...14W/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

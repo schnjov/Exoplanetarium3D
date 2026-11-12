@@ -1,0 +1,463 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "toi-1260",
+  "name": "TOI-1260",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('Kepler-47','Kepler-487','Kepler-52','Kepler-529','Kepler-53','Kepler-54','Kepler-549','Kepler-56','Kepler-60','Kepler-603','Kepler-616','Kepler-619','Kepler-763','Kepler-770','Kepler-81','Kepler-83','Kepler-9','Kepler-92','Kepler-968','LHS 1678','LP 791-18','PSR B1257+12','TOI-1117','TOI-125','TOI-1260','TOI-1266','TOI-1749','TOI-1806','TOI-201','TOI-2141','TOI-270','TOI-375','TOI-431','TOI-4504','TOI-451','TOI-469','TOI-663','TOI-712','TOI-7510','TOI-789','Teegarden''s Star','WASP-132','Wolf 1061','XO-2 S','YZ Cet','bet Pic','rho CrB','tau Cet','ups And','14 Her') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 157.1440712,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Lam et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 65.8541986,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Lam et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 73.5977,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.1607,
+        "minus": -0.1601
+      },
+      "source": {
+        "label": "Lam et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "TOI-1260",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.672,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.01,
+          "minus": -0.01
+        },
+        "source": {
+          "label": "Lam et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.679,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.095,
+          "minus": -0.057
+        },
+        "source": {
+          "label": "Lam et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 4227.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 85.0,
+          "minus": -85.0
+        },
+        "source": {
+          "label": "Lam et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "toi-1260-b",
+      "name": "TOI-1260 b",
+      "letter": "b",
+      "discoveryYear": 2021,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.41,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.05,
+            "minus": -0.05
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 8.56,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.54,
+            "minus": -1.54
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 3.127463,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 5e-06,
+            "minus": -5e-06
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.0367,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0011,
+            "minus": -0.0011
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.03,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.61,
+            "minus": -0.61
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 871.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 24.0,
+            "minus": -24.0
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "toi-1260-c",
+      "name": "TOI-1260 c",
+      "letter": "c",
+      "discoveryYear": 2021,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.76,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.07,
+            "minus": -0.07
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 13.2,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 4.23,
+            "minus": -4.23
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 7.493134,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2e-05,
+            "minus": -2e-05
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.0657,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.002,
+            "minus": -0.002
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 87.97,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.11,
+            "minus": -0.11
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 651.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 18.0,
+            "minus": -18.0
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "toi-1260-d",
+      "name": "TOI-1260 d",
+      "letter": "d",
+      "discoveryYear": 2022,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 3.12,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.08,
+            "minus": -0.08
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 11.84,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 7.79,
+            "minus": -7.79
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 16.608164,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.3e-05,
+            "minus": -8.3e-05
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.1116,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0033,
+            "minus": -0.0033
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.14,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.1,
+            "minus": -0.1
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 499.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 14.0,
+            "minus": -14.0
+          },
+          "source": {
+            "label": "Lam et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023MNRAS.519.1437L/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

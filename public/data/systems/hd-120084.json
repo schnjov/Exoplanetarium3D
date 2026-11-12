@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "hd-120084",
+  "name": "HD 120084",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 11755','HD 117618','HD 11977','HD 120084','HD 121504','HD 122562','HD 124330','HD 12484','HD 125136','HD 125271','HD 125390','HD 125595','HD 126105','HD 12648','HD 126525','HD 126614','HD 127506','HD 128356','HD 128717','HD 129445','HD 130322','HD 131496','HD 13167','HD 13189','HD 132406','HD 132563','HD 133131 B','HD 135344 A','HD 135625','HD 135694','HD 135872','HD 136118','HD 136418','HD 136925','HD 13724','HD 137388','HD 13931','HD 139357','HD 1397','HD 14067','HD 141004','HD 141937','HD 142022 A','HD 142245','HD 142415','HD 143105','HD 143361','HD 143811 A','HD 144899','HD 145377') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 205.661989,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Teng et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 78.0646376,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Teng et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 103.044,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.5175,
+        "minus": -0.5175
+      },
+      "source": {
+        "label": "Teng et al. 2023",
+        "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "HD 120084",
+    "attributes": {
+      "radiusSolar": {
+        "value": 10.37,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.82,
+          "minus": -0.8
+        },
+        "source": {
+          "label": "Teng et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 2.16,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.28,
+          "minus": -0.27
+        },
+        "source": {
+          "label": "Teng et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 4879.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Teng et al. 2023",
+          "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "hd-120084-b",
+      "name": "HD 120084 b",
+      "letter": "b",
+      "discoveryYear": 2013,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.398727558701182,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 2034.1018048,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 921.7023803,
+            "minus": -603.8739733
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 2142.0,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 9.0,
+            "minus": -9.0
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 4.21,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.17,
+            "minus": -0.19
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.483,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.027,
+            "minus": -0.029
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 38.0,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 22.0,
+            "minus": -12.0
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Teng et al. 2023",
+            "url": "https://ui.adsabs.harvard.edu/abs/2023PASJ...75.1030T/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

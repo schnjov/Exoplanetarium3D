@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "hd-175167",
+  "name": "HD 175167",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 17156','HD 173416','HD 174205','HD 175167','HD 175541','HD 175607','HD 17674','HD 177565','HD 178911 B','HD 179079','HD 179949','HD 180053','HD 18015','HD 180314','HD 180617','HD 180902','HD 181234','HD 181342','HD 181720','HD 183579','HD 18438','HD 185269','HD 185283','HD 18599','HD 187085','HD 18742','HD 188015','HD 188641','HD 189733','HD 190007','HD 190228','HD 190647','HD 190984','HD 191806','HD 192263','HD 192699','HD 194490','HD 195019','HD 196050','HD 19615','HD 196885 A','HD 197037','HD 199509','HD 19994','HD 202772 A','HD 203030','HD 20329','HD 2039','HD 204941','HD 205158') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 285.0033888,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Winn 2022",
+        "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -69.9450664,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Winn 2022",
+        "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 71.0863,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.1691,
+        "minus": -0.1684
+      },
+      "source": {
+        "label": "Winn 2022",
+        "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "HD 175167",
+    "attributes": {
+      "radiusSolar": {
+        "value": null,
+        "unit": "R☉",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Winn 2022",
+          "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.09,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.04,
+          "minus": -0.04
+        },
+        "source": {
+          "label": "Winn 2022",
+          "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": null,
+        "unit": "K",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Winn 2022",
+          "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "hd-175167-b",
+      "name": "HD 175167 b",
+      "letter": "b",
+      "discoveryYear": 2009,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.055807023520389,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 4703.8604236,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 572.0911326,
+            "minus": -508.5254512
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 1175.0,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 25.0,
+            "minus": -25.0
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 2.2427141714310643,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.51,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.035,
+            "minus": -0.035
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Winn 2022",
+            "url": "https://ui.adsabs.harvard.edu/abs/2022AJ....164..196W/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

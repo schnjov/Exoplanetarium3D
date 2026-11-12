@@ -1,0 +1,579 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "k2-32",
+  "name": "K2-32",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 141399','HD 160691','HD 164922','HD 20781','HD 20794','HD 215152','HD 3167','HR 8799','K2-133','K2-187','K2-266','K2-285','K2-32','K2-72','KOI-94','Kepler-100','Kepler-106','Kepler-107','Kepler-132','Kepler-138','Kepler-1388','Kepler-1542','Kepler-164','Kepler-167','Kepler-172','Kepler-176','Kepler-197','Kepler-1987','Kepler-208','Kepler-215','Kepler-220','Kepler-221','Kepler-223','Kepler-224','Kepler-235','Kepler-24','Kepler-245','Kepler-247','Kepler-251','Kepler-256','Kepler-26','Kepler-265','Kepler-279','Kepler-282','Kepler-286','Kepler-289','Kepler-299','Kepler-304','Kepler-305','Kepler-306') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 252.426008,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Lillo-Box et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -19.5430504,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Lillo-Box et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 157.682,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 1.309,
+        "minus": -1.288
+      },
+      "source": {
+        "label": "Lillo-Box et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "K2-32",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.86,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.02,
+          "minus": -0.02
+        },
+        "source": {
+          "label": "Lillo-Box et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.83,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.02,
+          "minus": -0.02
+        },
+        "source": {
+          "label": "Lillo-Box et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 5271.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 39.0,
+          "minus": -35.0
+        },
+        "source": {
+          "label": "Lillo-Box et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "k2-32-e",
+      "name": "K2-32 e",
+      "letter": "e",
+      "discoveryYear": 2019,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 1.212,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.052,
+            "minus": -0.046
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 2.1,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.3,
+            "minus": -1.1
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 4.34934,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00039,
+            "minus": -0.00039
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.04899,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00041,
+            "minus": -0.00038
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.043,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.048,
+            "minus": -0.03
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.0,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.7,
+            "minus": -0.7
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 1066.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 16.0,
+            "minus": -18.0
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "k2-32-b",
+      "name": "K2-32 b",
+      "letter": "b",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 5.299,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.191,
+            "minus": -0.191
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 15.0,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.8,
+            "minus": -1.7
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 8.992,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8e-05,
+            "minus": -8e-05
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.0795,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00066,
+            "minus": -0.00062
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.03,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.032,
+            "minus": -0.021
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.0,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.5,
+            "minus": -0.3
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 837.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 13.0,
+            "minus": -14.0
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "k2-32-c",
+      "name": "K2-32 c",
+      "letter": "c",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 3.134,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.123,
+            "minus": -0.102
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 8.1,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.4,
+            "minus": -2.4
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 20.66093,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0008,
+            "minus": -0.00079
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.13843,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00115,
+            "minus": -0.00108
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.049,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.046,
+            "minus": -0.035
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.4,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.3,
+            "minus": -0.2
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 634.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 9.0,
+            "minus": -11.0
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "k2-32-d",
+      "name": "K2-32 d",
+      "letter": "d",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.91670438,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 3.484,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.112,
+            "minus": -0.129
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 6.7,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.5,
+            "minus": -2.5
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 31.71701,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00101,
+            "minus": -0.00096
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.18422,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00152,
+            "minus": -0.00144
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.05,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.053,
+            "minus": -0.035
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.4,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.1,
+            "minus": -0.1
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 550.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.0,
+            "minus": -9.0
+          },
+          "source": {
+            "label": "Lillo-Box et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020A&A...640A..48L/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

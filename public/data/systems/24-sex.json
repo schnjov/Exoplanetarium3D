@@ -1,0 +1,347 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "24-sex",
+  "name": "24 Sex",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('24 Sex','55 Cnc B','7 CMa','75 Cet','BD+20 2457','BD-06 1339','BD-08 2823','BD-11 4672','BD-210397','CoRoT-20','CoRoT-24','DMPP-6','EPIC 201595106','EPIC 206042996','EPIC 206317286','EPIC 212297394','EPIC 212587672','EPIC 212624936','EPIC 212737443','EPIC 220674823','G 192-15','G 264-012','GJ 1002','GJ 1132','GJ 1148','GJ 143','GJ 15 A','GJ 2030','GJ 229','GJ 251','GJ 273','GJ 3090','GJ 317','GJ 328','GJ 3323','GJ 3473','GJ 3512','GJ 3929','GJ 411','GJ 414 A','GJ 4274','GJ 536','GJ 682','GJ 687','GJ 806','GJ 849','HAT-P-11','HAT-P-13','HAT-P-17','HAT-P-2') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 155.8684866,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Johnson et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -0.9023998,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Johnson et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 72.0691,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.6854,
+        "minus": -0.6728
+      },
+      "source": {
+        "label": "Johnson et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "24 Sex",
+    "attributes": {
+      "radiusSolar": {
+        "value": 4.9,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.08,
+          "minus": -0.08
+        },
+        "source": {
+          "label": "Johnson et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.54,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.08,
+          "minus": -0.08
+        },
+        "source": {
+          "label": "Johnson et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 5098.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 44.0,
+          "minus": -44.0
+        },
+        "source": {
+          "label": "Johnson et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "24-sex-b",
+      "name": "24 Sex b",
+      "letter": "b",
+      "discoveryYear": 2010,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.896167855320186,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 632.46,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 82.63,
+            "minus": -120.77
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 452.8,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.1,
+            "minus": -4.5
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 1.333,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.004,
+            "minus": -0.009
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.09,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.14,
+            "minus": -0.06
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "24-sex-c",
+      "name": "24 Sex c",
+      "letter": "c",
+      "discoveryYear": 2010,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 11.26803665262834,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 273.32,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 111.24,
+            "minus": -69.92
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 883.0,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 32.4,
+            "minus": -13.8
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 2.08,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.05,
+            "minus": -0.02
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.29,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.16,
+            "minus": -0.09
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Johnson et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010arXiv1007.4552J/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

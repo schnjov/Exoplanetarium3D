@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="violet">
+      <stop stop-color="#9268da" stop-opacity=".9"/>
+      <stop offset=".4" stop-color="#5947a1" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#1e194b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue">
+      <stop stop-color="#64cbd2" stop-opacity=".88"/>
+      <stop offset=".48" stop-color="#176993" stop-opacity=".57"/>
+      <stop offset="1" stop-color="#112846" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rose">
+      <stop stop-color="#cc648d" stop-opacity=".74"/>
+      <stop offset="1" stop-color="#622468" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="cloud" x="-20%" y="-25%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".005 .011" numOctaves="5" seed="27" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.6 0 0 0 -1.35" result="density"/>
+      <feComposite in="SourceGraphic" in2="density" operator="in"/>
+    </filter>
+  </defs>
+  <g filter="url(#cloud)">
+    <ellipse cx="460" cy="500" rx="680" ry="285" fill="url(#violet)" transform="rotate(-26 460 500)"/>
+    <ellipse cx="750" cy="420" rx="570" ry="230" fill="url(#blue)" transform="rotate(-29 750 420)"/>
+    <ellipse cx="975" cy="215" rx="390" ry="170" fill="url(#rose)" transform="rotate(-22 975 215)"/>
+  </g>
+</svg>

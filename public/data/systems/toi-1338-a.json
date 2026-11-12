@@ -1,0 +1,347 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "toi-1338-a",
+  "name": "TOI-1338 A",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('NN Ser','NY Vir','OGLE-2006-BLG-109L','OGLE-2012-BLG-0026L','OGLE-2014-BLG-1722L','OGLE-2018-BLG-1011L','OGLE-2019-BLG-0468L','PDS 70','Pr0211','Proxima Cen','TIC 139270665','TIC 24750448','TIC 279401253','TIC 434398831','TOI-1052','TOI-1062','TOI-1064','TOI-1130','TOI-1224','TOI-1232','TOI-1238','TOI-1269','TOI-1288','TOI-1294','TOI-1338 A','TOI-1346','TOI-1347','TOI-1386','TOI-1408','TOI-1410','TOI-1422','TOI-1438','TOI-1450 A','TOI-1453','TOI-1468','TOI-1470','TOI-1472','TOI-1533','TOI-1634','TOI-1669','TOI-1670','TOI-1694','TOI-1736','TOI-1752','TOI-1774','TOI-1782','TOI-1798','TOI-1803','TOI-1836','TOI-1839') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 92.1330955,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Wang & Liu 2024",
+        "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -59.5409853,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Wang & Liu 2024",
+        "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 399.017,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 3.162,
+        "minus": -3.113
+      },
+      "source": {
+        "label": "Wang & Liu 2024",
+        "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "TOI-1338 A",
+    "attributes": {
+      "radiusSolar": {
+        "value": 1.313,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.0038,
+          "minus": -0.0038
+        },
+        "source": {
+          "label": "Wang & Liu 2024",
+          "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.0936,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.0072,
+          "minus": -0.0072
+        },
+        "source": {
+          "label": "Wang & Liu 2024",
+          "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": null,
+        "unit": "K",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Wang & Liu 2024",
+          "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "toi-1338-b",
+      "name": "TOI-1338 b",
+      "letter": "b",
+      "discoveryYear": 2020,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 7.661,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.053,
+            "minus": -0.053
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 11.3,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.1,
+            "minus": -2.1
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 95.4001,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0062,
+            "minus": -0.0056
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.42097719566633085,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0331,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0022,
+            "minus": -0.0021
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.494,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.013,
+            "minus": -0.014
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "toi-1338-c",
+      "name": "TOI-1338 c",
+      "letter": "c",
+      "discoveryYear": 2023,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 3.378356080848355,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 75.4,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 4.0,
+            "minus": -3.6
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 215.79,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.46,
+            "minus": -0.46
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.7254044700883395,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.037,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.032,
+            "minus": -0.026
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 97.0,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 6.7,
+            "minus": -6.8
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Wang & Liu 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168...31W/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

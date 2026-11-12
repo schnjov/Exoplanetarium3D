@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "ic-4651-9122",
+  "name": "IC 4651 9122",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HIP 78530','HIP 79098 AB','HIP 79431','HIP 81208 C','HIP 81991','HIP 86221','HIP 8923','HIP 90988','HIP 91258','HIP 94235','HIP 948','HIP 97233','HIP 98599','HIP 99770','HN Lib','HN Peg','HR 2562','HR 5183','HR 810','HS Psc','IC 4651 9122','IRAS 04125+2902','ISO-Oph 96','ITG 15 A','K2-10','K2-100','K2-101','K2-102','K2-104','K2-107','K2-108','K2-11','K2-110','K2-113','K2-114','K2-115','K2-116','K2-118','K2-119','K2-12','K2-121','K2-122','K2-123','K2-124','K2-125','K2-126','K2-127','K2-128','K2-129','K2-13') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 261.2086139,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Leão et al. 2018",
+        "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -49.9489317,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Leão et al. 2018",
+        "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 859.324,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 31.989,
+        "minus": -31.989
+      },
+      "source": {
+        "label": "Leão et al. 2018",
+        "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "IC 4651 9122",
+    "attributes": {
+      "radiusSolar": {
+        "value": null,
+        "unit": "R☉",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Leão et al. 2018",
+          "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 2.1,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Leão et al. 2018",
+          "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": null,
+        "unit": "K",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Leão et al. 2018",
+          "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "ic-4651-9122-b",
+      "name": "IC 4651 9122 b",
+      "letter": "b",
+      "discoveryYear": 2018,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.405278051173006,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 2002.329,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 158.915,
+            "minus": -158.915
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 734.0,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.1,
+            "minus": -8.1
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 2.038,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.039,
+            "minus": -0.039
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.18,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.09,
+            "minus": -0.09
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Leão et al. 2018",
+            "url": "https://ui.adsabs.harvard.edu/abs/2018A&A...620A.139L/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

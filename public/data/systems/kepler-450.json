@@ -1,0 +1,463 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "kepler-450",
+  "name": "Kepler-450",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('Kepler-27','Kepler-271','Kepler-272','Kepler-275','Kepler-276','Kepler-281','Kepler-288','Kepler-290','Kepler-295','Kepler-297','Kepler-298','Kepler-30','Kepler-301','Kepler-31','Kepler-310','Kepler-311','Kepler-319','Kepler-325','Kepler-326','Kepler-327','Kepler-331','Kepler-332','Kepler-334','Kepler-336','Kepler-339','Kepler-347','Kepler-350','Kepler-351','Kepler-352','Kepler-354','Kepler-357','Kepler-359','Kepler-363','Kepler-372','Kepler-374','Kepler-381','Kepler-385','Kepler-394','Kepler-398','Kepler-399','Kepler-401','Kepler-403','Kepler-416','Kepler-42','Kepler-431','Kepler-445','Kepler-446','Kepler-450','Kepler-454','Kepler-46') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 295.4865821,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Van Eylen & Albrecht 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 51.0135237,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Van Eylen & Albrecht 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 455.982,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 5.189,
+        "minus": -5.074
+      },
+      "source": {
+        "label": "Van Eylen & Albrecht 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "Kepler-450",
+    "attributes": {
+      "radiusSolar": {
+        "value": 1.64162,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.080191,
+          "minus": -0.106909
+        },
+        "source": {
+          "label": "Van Eylen & Albrecht 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.19,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.197747,
+          "minus": -0.142064
+        },
+        "source": {
+          "label": "Van Eylen & Albrecht 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 6197.21,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 130.15,
+          "minus": -187.39
+        },
+        "source": {
+          "label": "Van Eylen & Albrecht 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "kepler-450-d",
+      "name": "Kepler-450 d",
+      "letter": "d",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.837,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.068,
+            "minus": -0.068
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 7.51464,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00023,
+            "minus": -0.00023
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.07956601805536909,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.14,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.24,
+            "minus": -0.14
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-450-c",
+      "name": "Kepler-450 c",
+      "letter": "c",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.62,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.14,
+            "minus": -0.14
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 15.413135,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.5e-05,
+            "minus": -8.5e-05
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.12844469118869634,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.02,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.17,
+            "minus": -0.02
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-450-b",
+      "name": "Kepler-450 b",
+      "letter": "b",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 6.14,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.33,
+            "minus": -0.33
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 28.454851,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.5e-05,
+            "minus": -2.5e-05
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.19329756415003532,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.02,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.14,
+            "minus": -0.02
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Van Eylen & Albrecht 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...808..126V/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

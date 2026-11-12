@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "k2-323",
+  "name": "K2-323",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('K2-274','K2-276','K2-277','K2-278','K2-279','K2-28','K2-280','K2-281','K2-283','K2-284','K2-286','K2-287','K2-288 B','K2-289','K2-29','K2-291','K2-292','K2-293','K2-294','K2-295','K2-30','K2-308','K2-31','K2-315','K2-317','K2-318','K2-319','K2-320','K2-321','K2-322','K2-323','K2-324','K2-325','K2-326','K2-329','K2-33','K2-330','K2-332','K2-333','K2-334','K2-335','K2-336','K2-337','K2-338','K2-339','K2-34','K2-340','K2-341','K2-342','K2-344') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 159.4209874,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Castro González et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 6.2858689,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Castro González et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 118.318,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.553,
+        "minus": -0.548
+      },
+      "source": {
+        "label": "Castro González et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "K2-323",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.549,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.024,
+          "minus": -0.024
+        },
+        "source": {
+          "label": "Castro González et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.478,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.089,
+          "minus": -0.089
+        },
+        "source": {
+          "label": "Castro González et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 3710.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 118.0,
+          "minus": -118.0
+        },
+        "source": {
+          "label": "Castro González et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "k2-323-b",
+      "name": "K2-323 b",
+      "letter": "b",
+      "discoveryYear": 2020,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.1,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.09,
+            "minus": -0.11
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 24.93,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.006,
+            "minus": -0.006
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.1275,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0055,
+            "minus": -0.0072
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": "Órbita circular cuando no existe excentricidad publicada"
+        },
+        "inclinationDeg": {
+          "value": 89.88,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.08,
+            "minus": -1.29
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": 318.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 24.0,
+            "minus": -43.0
+          },
+          "source": {
+            "label": "Castro González et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020MNRAS.499.5416C/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

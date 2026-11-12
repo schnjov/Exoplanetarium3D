@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "hd-8535",
+  "name": "HD 8535",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 69123','HD 70573','HD 70642','HD 715','HD 7199','HD 72490','HD 72892','HD 73256','HD 73534','HD 7449','HD 75289','HD 75302','HD 76700','HD 76920','HD 77338','HD 77946','HD 79181','HD 79498','HD 80606','HD 80869','HD 80883','HD 80913','HD 81040','HD 81688','HD 82886','HD 8326','HD 8535','HD 85390','HD 8574','HD 86065','HD 86081','HD 86264','HD 86728','HD 8673','HD 86950','HD 87646','HD 87883','HD 88072','HD 88133','HD 88986','HD 89307','HD 89345','HD 89744','HD 89839','HD 90156','HD 9174','HD 94771','HD 94834','HD 95086','HD 95127') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 20.9054804,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Naef et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -41.2701007,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Naef et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 55.4401,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.0961,
+        "minus": -0.0957
+      },
+      "source": {
+        "label": "Naef et al. 2010",
+        "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "HD 8535",
+    "attributes": {
+      "radiusSolar": {
+        "value": 1.19,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.04,
+          "minus": -0.04
+        },
+        "source": {
+          "label": "Naef et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.13,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Naef et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 6136.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 18.0,
+          "minus": -18.0
+        },
+        "source": {
+          "label": "Naef et al. 2010",
+          "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "hd-8535-b",
+      "name": "HD 8535 b",
+      "letter": "b",
+      "discoveryYear": 2010,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 11.374359628982404,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 216.1244,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 22.2481,
+            "minus": -12.7132
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 1313.0,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 28.0,
+            "minus": -28.0
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 2.45,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.04,
+            "minus": -0.06
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.15,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.09,
+            "minus": -0.05
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Naef et al. 2010",
+            "url": "https://ui.adsabs.harvard.edu/abs/2010A%26A...523A..15N/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

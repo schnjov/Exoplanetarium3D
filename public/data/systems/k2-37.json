@@ -1,0 +1,463 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "k2-37",
+  "name": "K2-37",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('HD 184010','HD 190360','HD 204313','HD 224018','HD 22946','HD 27894','HD 28109','HD 28471','HD 31527','HD 33142','HD 37124','HD 39091','HD 39194','HD 48948','HD 50554','HD 63433','HD 69830','HD 73344','HD 7924','HD 93385','HD 96700','HIP 14810','HIP 57274','HR 858','K2-136','K2-148','K2-155','K2-157','K2-16','K2-165','K2-183','K2-19','K2-198','K2-219','K2-233','K2-239','K2-3','K2-352','K2-368','K2-37','K2-381','K2-58','K2-80','KIC 10001893','KOI-142','KOI-7892','Kepler-10','Kepler-104','Kepler-1073','Kepler-1130') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 243.4509662,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Howard et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -24.7870527,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Howard et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 179.943,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 1.603,
+        "minus": -1.575
+      },
+      "source": {
+        "label": "Howard et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "K2-37",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.809,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.032,
+          "minus": -0.032
+        },
+        "source": {
+          "label": "Howard et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.84,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.03,
+          "minus": -0.03
+        },
+        "source": {
+          "label": "Howard et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 5352.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 100.0,
+          "minus": -100.0
+        },
+        "source": {
+          "label": "Howard et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "k2-37-b",
+      "name": "K2-37 b",
+      "letter": "b",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 1.39,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.1,
+            "minus": -0.05
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 4.4434,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00032,
+            "minus": -0.00032
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.04990873390612065,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Órbita circular cuando no existe excentricidad publicada"
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 949.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 27.0,
+            "minus": -27.0
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "k2-37-c",
+      "name": "K2-37 c",
+      "letter": "c",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.41,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.15,
+            "minus": -0.06
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 6.42966,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00018,
+            "minus": -0.00018
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.06384961520978381,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Órbita circular cuando no existe excentricidad publicada"
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 839.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 24.0,
+            "minus": -24.0
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "k2-37-d",
+      "name": "K2-37 d",
+      "letter": "d",
+      "discoveryYear": 2016,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.31,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.21,
+            "minus": -0.07
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 12.5,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 6.2,
+            "minus": -6.1
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 14.09229,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00055,
+            "minus": -0.00055
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.10773429982208892,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Órbita circular cuando no existe excentricidad publicada"
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 646.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 18.0,
+            "minus": -18.0
+          },
+          "source": {
+            "label": "Howard et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJS..278...52H/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

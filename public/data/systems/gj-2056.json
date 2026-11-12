@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "gj-2056",
+  "name": "GJ 2056",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('GJ 1265','GJ 1289','GJ 160.2','GJ 179','GJ 2056','GJ 2126','GJ 238','GJ 27.1','GJ 3021','GJ 3082','GJ 3222','GJ 3341','GJ 3378','GJ 338 B','GJ 341','GJ 3470','GJ 3634','GJ 3779','GJ 393','GJ 3942','GJ 3988','GJ 422','GJ 4276','GJ 436','GJ 463','GJ 480','GJ 486','GJ 504','GJ 508.2','GJ 514','GJ 625','GJ 649','GJ 674','GJ 680','GJ 685','GJ 720 A','GJ 724','GJ 740','GJ 832','GJ 86','GJ 896 A','GJ 900 A','GJ 9066','GJ 9404','GJ 96','GJ 9689','GJ 9714','GJ 9773','GPX-1','GQ Lup') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 108.0194945,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Feng et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -24.8921008,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Feng et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 28.4434,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.0234,
+        "minus": -0.0233
+      },
+      "source": {
+        "label": "Feng et al. 2020",
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "GJ 2056",
+    "attributes": {
+      "radiusSolar": {
+        "value": null,
+        "unit": "R☉",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Feng et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.62,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.08,
+          "minus": -0.08
+        },
+        "source": {
+          "label": "Feng et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": null,
+        "unit": "K",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Feng et al. 2020",
+          "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "gj-2056-b",
+      "name": "GJ 2056 b",
+      "letter": "b",
+      "discoveryYear": 2020,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 2.3719114214334516,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 16.2,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 3.6,
+            "minus": -3.6
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 69.971,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.061,
+            "minus": -0.061
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.283,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.013,
+            "minus": -0.013
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.72,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.1,
+            "minus": -0.1
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Feng et al. 2020",
+            "url": "https://ui.adsabs.harvard.edu/abs/2020ApJS..250...29F/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

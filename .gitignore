@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+*.pyc
+__pycache__/
+.firebase/
+.firebaserc
+.idea/
+.vscode/

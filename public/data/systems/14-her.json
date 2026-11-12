@@ -1,0 +1,347 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "14-her",
+  "name": "14 Her",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('Kepler-47','Kepler-487','Kepler-52','Kepler-529','Kepler-53','Kepler-54','Kepler-549','Kepler-56','Kepler-60','Kepler-603','Kepler-616','Kepler-619','Kepler-763','Kepler-770','Kepler-81','Kepler-83','Kepler-9','Kepler-92','Kepler-968','LHS 1678','LP 791-18','PSR B1257+12','TOI-1117','TOI-125','TOI-1260','TOI-1266','TOI-1749','TOI-1806','TOI-201','TOI-2141','TOI-270','TOI-375','TOI-431','TOI-4504','TOI-451','TOI-469','TOI-663','TOI-712','TOI-7510','TOI-789','Teegarden''s Star','WASP-132','Wolf 1061','XO-2 S','YZ Cet','bet Pic','rho CrB','tau Cet','ups And','14 Her') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 242.6021014,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Bardalez Gagliuffi et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 43.8163621,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Bardalez Gagliuffi et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 17.9323,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.0073,
+        "minus": -0.0073
+      },
+      "source": {
+        "label": "Bardalez Gagliuffi et al. 2025",
+        "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "14 Her",
+    "attributes": {
+      "radiusSolar": {
+        "value": null,
+        "unit": "R☉",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Bardalez Gagliuffi et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.97,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.04,
+          "minus": -0.04
+        },
+        "source": {
+          "label": "Bardalez Gagliuffi et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": null,
+        "unit": "K",
+        "status": "absent",
+        "uncertainty": {
+          "plus": null,
+          "minus": null
+        },
+        "source": {
+          "label": "Bardalez Gagliuffi et al. 2025",
+          "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "14-her-b",
+      "name": "14 Her b",
+      "letter": "b",
+      "discoveryYear": 2002,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.262467594191943,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 2828.6728223,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 413.1769291,
+            "minus": -540.3082919
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": null,
+          "unit": "días",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 2.839,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.039,
+            "minus": -0.041
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.3683,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0029,
+            "minus": -0.0029
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 146.7,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 4.584,
+            "minus": -9.74
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "hd-145675-c",
+      "name": "HD 145675 c",
+      "letter": "c",
+      "discoveryYear": 2021,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 10.31151114169308,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 2510.8444153,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 508.5254512,
+            "minus": -381.3940884
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": null,
+          "unit": "días",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 20.0,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 12.0,
+            "minus": -4.9
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.52,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.16,
+            "minus": -0.12
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 116.3,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 24.64,
+            "minus": -9.167
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Bardalez Gagliuffi et al. 2025",
+            "url": "https://ui.adsabs.harvard.edu/abs/2025ApJ...988L..18B/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

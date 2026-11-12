@@ -1,0 +1,579 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "kepler-51",
+  "name": "Kepler-51",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('Kepler-324','Kepler-338','Kepler-341','Kepler-342','Kepler-37','Kepler-402','Kepler-411','Kepler-49','Kepler-51','Kepler-58','Kepler-65','Kepler-68','Kepler-758','Kepler-79','Kepler-85','LHS 1903','TOI-1203','TOI-1246','TOI-2076','TOI-4010','TOI-500','TOI-561','TOI-5789','TOI-700','V1298 Tau','WASP-47','2MASS J19383260+4603591','47 UMa','61 Vir','CoRoT-7','DMPP-2','EPIC 206024342','EPIC 249893012','GJ 1061','GJ 163','GJ 180','GJ 3138','GJ 357','GJ 367','GJ 3998','GJ 433','GJ 581','GJ 9827','HD 11506','HD 125612','HD 136352','HD 142','HD 153557','HD 176986','HD 181433') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 296.4797624,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Masuda 2014",
+        "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 49.9376486,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Masuda 2014",
+        "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 783.831,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 13.669,
+        "minus": -13.218
+      },
+      "source": {
+        "label": "Masuda 2014",
+        "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "Kepler-51",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.94,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.5,
+          "minus": -0.5
+        },
+        "source": {
+          "label": "Masuda 2014",
+          "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.04,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.12,
+          "minus": -0.12
+        },
+        "source": {
+          "label": "Masuda 2014",
+          "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 6018.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 107.0,
+          "minus": -107.0
+        },
+        "source": {
+          "label": "Masuda 2014",
+          "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "kepler-51-b",
+      "name": "Kepler-51 b",
+      "letter": "b",
+      "discoveryYear": 2012,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 7.1,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.3,
+            "minus": -0.3
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 2.1,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.5,
+            "minus": -0.8
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 45.154,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0002,
+            "minus": -0.0002
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.2514,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0097,
+            "minus": -0.0097
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.04,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.01,
+            "minus": -0.01
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 543.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 11.0,
+            "minus": -11.0
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-51-c",
+      "name": "Kepler-51 c",
+      "letter": "c",
+      "discoveryYear": 2012,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 9.0,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 2.8,
+            "minus": -1.7
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 4.0,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.4,
+            "minus": -0.4
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 85.312,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.003,
+            "minus": -0.002
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.384,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.015,
+            "minus": -0.015
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.014,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.013,
+            "minus": -0.009
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 439.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 9.0,
+            "minus": -9.0
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-51-d",
+      "name": "Kepler-51 d",
+      "letter": "d",
+      "discoveryYear": 2014,
+      "visualCategory": {
+        "value": "gigante-gaseoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 9.7,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.5,
+            "minus": -0.5
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": 7.6,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.1,
+            "minus": -1.1
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 130.194,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.005,
+            "minus": -0.002
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.509,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.02,
+            "minus": -0.02
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.008,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.011,
+            "minus": -0.008
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": 381.0,
+          "unit": "K",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.0,
+            "minus": -8.0
+          },
+          "source": {
+            "label": "Masuda 2014",
+            "url": "https://ui.adsabs.harvard.edu/abs/2014ApJ...783...53M/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-51-e",
+      "name": "Kepler-51 e",
+      "letter": "e",
+      "discoveryYear": 2024,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.91670438,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 1.8423009572851876,
+          "unit": "R⊕",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": "Relación masa-radio aproximada para visualización"
+        },
+        "massEarth": {
+          "value": 5.4,
+          "unit": "M⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.5,
+            "minus": -1.5
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 264.284,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.905,
+            "minus": -0.905
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.7950800240157656,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.02,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.015,
+            "minus": -0.015
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Masuda et al. 2024",
+            "url": "https://ui.adsabs.harvard.edu/abs/2024AJ....168..294M/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

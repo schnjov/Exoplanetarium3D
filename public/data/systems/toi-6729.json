@@ -1,0 +1,347 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "toi-6729",
+  "name": "TOI-6729",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('TOI-199','TOI-2000','TOI-2015','TOI-2093','TOI-2095','TOI-2096','TOI-2134','TOI-214','TOI-2158','TOI-216','TOI-2202','TOI-2267 A','TOI-2295','TOI-2322','TOI-2345','TOI-237','TOI-238','TOI-2427','TOI-2458','TOI-2525','TOI-2537','TOI-261','TOI-286','TOI-406','TOI-4156','TOI-421','TOI-426','TOI-4311','TOI-4336 A','TOI-4342','TOI-4443','TOI-4468','TOI-4495','TOI-4562','TOI-4600','TOI-5126','TOI-5398','TOI-544','TOI-5489','TOI-5788','TOI-5799','TOI-6041','TOI-6054','TOI-6109','TOI-6695','TOI-6729','TOI-713','TOI-756','TOI-763','TOI-771') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 45.3103823,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Collier et al. 2026",
+        "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": -75.2033076,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Collier et al. 2026",
+        "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 186.378,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.913,
+        "minus": -0.905
+      },
+      "source": {
+        "label": "Collier et al. 2026",
+        "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "TOI-6729",
+    "attributes": {
+      "radiusSolar": {
+        "value": 1.86421,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.068785,
+          "minus": -0.091722
+        },
+        "source": {
+          "label": "Collier et al. 2026",
+          "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 1.23,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.229466,
+          "minus": -0.148768
+        },
+        "source": {
+          "label": "Collier et al. 2026",
+          "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 6289.7,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 133.64,
+          "minus": -82.67
+        },
+        "source": {
+          "label": "Collier et al. 2026",
+          "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "toi-6729-b",
+      "name": "TOI-6729 b",
+      "letter": "b",
+      "discoveryYear": 2026,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 1.61,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.2,
+            "minus": -0.17
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 3.863828,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 3.8e-05,
+            "minus": -3.3e-05
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.051632134294046714,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "toi-6729-c",
+      "name": "TOI-6729 c",
+      "letter": "c",
+      "discoveryYear": 2026,
+      "visualCategory": {
+        "value": "sub-neptuno",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 3.01,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.17,
+            "minus": -0.17
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 7.837435,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.5e-05,
+            "minus": -1.2e-05
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.08273530179480648,
+          "unit": "UA",
+          "status": "derived",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": "Tercera ley de Kepler: a³ ≈ M★P²"
+        },
+        "eccentricity": {
+          "value": 0.0,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 90.0,
+          "unit": "°",
+          "status": "assumed",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": "Plano coplanar de referencia"
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Collier et al. 2026",
+            "url": "https://ui.adsabs.harvard.edu/abs/2026arXiv260821560C/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}

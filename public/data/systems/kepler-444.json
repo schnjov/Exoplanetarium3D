@@ -1,0 +1,695 @@
+{
+  "schemaVersion": "0.1.0",
+  "id": "kepler-444",
+  "name": "Kepler-444",
+  "retrievedAt": "2026-11-12T05:28:20.918939+00:00",
+  "source": {
+    "name": "NASA Exoplanet Archive",
+    "table": "ps",
+    "filter": "default_flag=1",
+    "tapEndpoint": "https://exoplanetarchive.ipac.caltech.edu/TAP/sync",
+    "query": "select pl_name,hostname,default_flag,pl_letter,pl_rade,pl_radeerr1,pl_radeerr2,pl_bmasse,pl_bmasseerr1,pl_bmasseerr2,pl_orbper,pl_orbpererr1,pl_orbpererr2,pl_orbsmax,pl_orbsmaxerr1,pl_orbsmaxerr2,pl_orbeccen,pl_orbeccenerr1,pl_orbeccenerr2,pl_orbincl,pl_orbinclerr1,pl_orbinclerr2,pl_eqt,pl_eqterr1,pl_eqterr2,st_rad,st_raderr1,st_raderr2,st_mass,st_masserr1,st_masserr2,st_teff,st_tefferr1,st_tefferr2,ra,dec,sy_dist,sy_disterr1,sy_disterr2,disc_year,rowupdate,pl_refname from ps where default_flag=1 and hostname in ('KOI-351','TRAPPIST-1','HD 10180','HD 110067','HD 191939','HD 219134','HD 34445','HIP 41378','K2-138','Kepler-11','Kepler-20','Kepler-80','TOI-1136','TOI-178','55 Cnc','GJ 667 C','HD 108236','HD 134606','HD 158259','HD 23472','HD 40307','K2-268','K2-384','Kepler-102','Kepler-122','Kepler-139','Kepler-150','Kepler-154','Kepler-169','Kepler-186','Kepler-238','Kepler-292','Kepler-296','Kepler-32','Kepler-33','Kepler-444','Kepler-48','Kepler-55','Kepler-62','Kepler-82','Kepler-84','L 98-59','TOI-5624','AU Mic','Barnard''s star','DMPP-1','GJ 3293','GJ 676 A','GJ 876','GJ 887') order by hostname,pl_orbper",
+    "rawFiles": [
+      "/data/raw/nasa-ps.csv",
+      "/data/raw/nasa-pscomppars-supplement.csv"
+    ]
+  },
+  "coordinates": {
+    "rightAscensionDeg": {
+      "value": 289.7528323,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Campante et al. 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+      },
+      "transform": null
+    },
+    "declinationDeg": {
+      "value": 41.631884,
+      "unit": "°",
+      "status": "reported",
+      "uncertainty": {
+        "plus": null,
+        "minus": null
+      },
+      "source": {
+        "label": "Campante et al. 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+      },
+      "transform": null
+    },
+    "distancePc": {
+      "value": 36.4396,
+      "unit": "pc",
+      "status": "reported",
+      "uncertainty": {
+        "plus": 0.0395,
+        "minus": -0.0394
+      },
+      "source": {
+        "label": "Campante et al. 2015",
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+      },
+      "transform": null
+    }
+  },
+  "star": {
+    "name": "Kepler-444",
+    "attributes": {
+      "radiusSolar": {
+        "value": 0.752,
+        "unit": "R☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.014,
+          "minus": -0.014
+        },
+        "source": {
+          "label": "Campante et al. 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+        },
+        "transform": null
+      },
+      "massSolar": {
+        "value": 0.758,
+        "unit": "M☉",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 0.043,
+          "minus": -0.043
+        },
+        "source": {
+          "label": "Campante et al. 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+        },
+        "transform": null
+      },
+      "temperatureK": {
+        "value": 5046.0,
+        "unit": "K",
+        "status": "reported",
+        "uncertainty": {
+          "plus": 74.0,
+          "minus": -74.0
+        },
+        "source": {
+          "label": "Campante et al. 2015",
+          "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+        },
+        "transform": null
+      }
+    }
+  },
+  "planets": [
+    {
+      "id": "kepler-444-b",
+      "name": "Kepler-444 b",
+      "letter": "b",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.0,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.403,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.016,
+            "minus": -0.014
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 3.6001053,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 8.3e-06,
+            "minus": -8e-06
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.04178,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00079,
+            "minus": -0.00079
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.16,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.21,
+            "minus": -0.1
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 88.0,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.2,
+            "minus": -0.6
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-444-c",
+      "name": "Kepler-444 c",
+      "letter": "c",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 2.39996323,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.497,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.021,
+            "minus": -0.017
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 4.5458841,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 7e-06,
+            "minus": -7.1e-06
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.04881,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.00093,
+            "minus": -0.00093
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.31,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.12,
+            "minus": -0.15
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 88.2,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.2,
+            "minus": -1.0
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-444-d",
+      "name": "Kepler-444 d",
+      "letter": "d",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 4.79992646,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.53,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.022,
+            "minus": -0.019
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 6.189392,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.2e-05,
+            "minus": -1.2e-05
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.06,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0011,
+            "minus": -0.0011
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.18,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.16,
+            "minus": -0.12
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 88.16,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.81,
+            "minus": -0.55
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-444-e",
+      "name": "Kepler-444 e",
+      "letter": "e",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 0.91670438,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.546,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.017,
+            "minus": -0.015
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 7.743493,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.7e-05,
+            "minus": -1.6e-05
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.0696,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0013,
+            "minus": -0.0013
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.1,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.2,
+            "minus": -0.07
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 89.13,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.54,
+            "minus": -0.52
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        }
+      }
+    },
+    {
+      "id": "kepler-444-f",
+      "name": "Kepler-444 f",
+      "letter": "f",
+      "discoveryYear": 2015,
+      "visualCategory": {
+        "value": "rocoso",
+        "status": "derived",
+        "rule": "Clasificación visual genérica basada en radio planetario"
+      },
+      "visualPhase": {
+        "value": 3.31666761,
+        "status": "assumed",
+        "rule": "Fase determinista para separar los cuerpos en la demostración"
+      },
+      "attributes": {
+        "radiusEarth": {
+          "value": 0.741,
+          "unit": "R⊕",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.041,
+            "minus": -0.04
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "massEarth": {
+          "value": null,
+          "unit": "M⊕",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "periodDays": {
+          "value": 9.740486,
+          "unit": "días",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 1.3e-05,
+            "minus": -1.3e-05
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "semiMajorAu": {
+          "value": 0.0811,
+          "unit": "UA",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.0015,
+            "minus": -0.0015
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "eccentricity": {
+          "value": 0.29,
+          "unit": "",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.2,
+            "minus": -0.19
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "inclinationDeg": {
+          "value": 87.96,
+          "unit": "°",
+          "status": "reported",
+          "uncertainty": {
+            "plus": 0.36,
+            "minus": -0.31
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        },
+        "equilibriumTempK": {
+          "value": null,
+          "unit": "K",
+          "status": "absent",
+          "uncertainty": {
+            "plus": null,
+            "minus": null
+          },
+          "source": {
+            "label": "Campante et al. 2015",
+            "url": "https://ui.adsabs.harvard.edu/abs/2015ApJ...799..170C/abstract"
+          },
+          "transform": null
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Las escalas de cuerpos y órbitas se normalizan para mantenerlos visibles.",
+    "Una excentricidad ausente se representa como órbita circular asumida.",
+    "La fase inicial es una decisión visual y no una posición observada."
+  ]
+}
