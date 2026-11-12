@@ -1,10 +1,26 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import type { CatalogEntry } from './types';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import * as THREE from 'three';
+import type { CatalogEntry, MapNavigationContext } from './types';
+import { createCosmicCloud } from './cosmicCloud';
+import { createCosmicParticles } from './cosmicParticles';
 
 const radians = Math.PI / 180;
 const home = { yaw: -0.42, pitch: 0.46 };
 const initialZoom = 1.2;
 const clampZoom = (value: number) => Math.max(0.5, Math.min(4, value));
+
+function markerTwinkle(id: string) {
+  let hash = 2166136261;
+  for (let index = 0; index < id.length; index += 1) {
+    hash ^= id.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  const value = hash >>> 0;
+  return {
+    duration: `${2.4 + (value % 18) / 10}s`,
+    delay: `-${((value >>> 8) % 47) / 10}s`,
+  };
+}
 
 export function stellarPosition(entry: CatalogEntry) {
   const { rightAscensionDeg: ra, declinationDeg: dec, distancePc: distance } = entry;
@@ -21,17 +37,24 @@ export function stellarPosition(entry: CatalogEntry) {
 interface StarMapProps {
   systems: CatalogEntry[];
   activeId?: string;
-  onOpen: (entry: CatalogEntry) => void;
+  backgroundStrength: number;
+  onOpen: (entry: CatalogEntry, view: MapNavigationContext) => void;
   onBack: () => void;
 }
 
-export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
+export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack }: StarMapProps) {
   const [angle, setAngle] = useState(home);
   const [zoom, setZoom] = useState(initialZoom);
   const [showNames, setShowNames] = useState(true);
+  const [showConnections, setShowConnections] = useState(true);
+  const [openingId, setOpeningId] = useState<string | null>(null);
   const [systemLimit, setSystemLimit] = useState(100);
   const fieldRef = useRef<HTMLDivElement>(null);
+  const cosmicRef = useRef<HTMLDivElement>(null);
+  const fpsRef = useRef<HTMLOutputElement>(null);
+  const cosmicView = useRef({ angle, zoom, backgroundStrength });
   const drag = useRef<{ x: number; y: number; id: number } | null>(null);
+  const openingTimer = useRef<number | null>(null);
   const available = systems.map((entry) => ({ entry, position: stellarPosition(entry) }))
     .filter((item) => item.position !== null);
   const limits = Array.from({ length: Math.floor(available.length / 100) }, (_, index) => (index + 1) * 100);
@@ -58,6 +81,92 @@ export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
     };
     field.addEventListener('wheel', onWheel, { passive: false });
     return () => field.removeEventListener('wheel', onWheel);
+  }, []);
+
+  useEffect(() => () => {
+    if (openingTimer.current !== null) window.clearTimeout(openingTimer.current);
+  }, []);
+
+  const beginOpen = (entry: CatalogEntry) => {
+    if (openingId) return;
+    setOpeningId(entry.id);
+    openingTimer.current = window.setTimeout(() => {
+      onOpen(entry, { yaw: angle.yaw, pitch: angle.pitch, zoom });
+    }, 650);
+  };
+
+  useLayoutEffect(() => {
+    cosmicView.current = { angle, zoom, backgroundStrength };
+  }, [angle, zoom, backgroundStrength]);
+
+  useEffect(() => {
+    const host = cosmicRef.current;
+    const fps = fpsRef.current;
+    if (!host || !fps) return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 500);
+    camera.rotation.order = 'YXZ';
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.domElement.className = 'star-map-cosmic';
+    host.appendChild(renderer.domElement);
+    const cloud = createCosmicCloud();
+    const particles = createCosmicParticles(0xe70f2026, renderer.getPixelRatio(), 1200);
+    scene.add(cloud, particles);
+
+    const resize = () => {
+      const width = Math.max(1, host.clientWidth);
+      const height = Math.max(1, host.clientHeight);
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(host);
+    resize();
+
+    let windowStart = performance.now();
+    let lastTime = windowStart;
+    let frameCount = 0;
+    let frame = 0;
+    const measure = (now: number) => {
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+      const view = cosmicView.current;
+      camera.rotation.x = -view.angle.pitch * 0.72;
+      camera.rotation.y = -view.angle.yaw;
+      camera.fov = Math.max(28, Math.min(78, 58 / Math.sqrt(view.zoom / initialZoom)));
+      camera.updateProjectionMatrix();
+      cloud.material.uniforms.uOpacity.value = view.backgroundStrength;
+      particles.material.uniforms.uOpacity.value = view.backgroundStrength * 0.62;
+      particles.material.uniforms.uTime.value += delta;
+      particles.rotation.y += delta * 0.0025;
+      renderer.render(scene, camera);
+      frameCount += 1;
+      const duration = now - windowStart;
+      if (duration >= 500) {
+        fps.value = `${Math.round(frameCount * 1000 / duration)} FPS`;
+        frameCount = 0;
+        windowStart = now;
+      }
+      frame = requestAnimationFrame(measure);
+    };
+    frame = requestAnimationFrame(measure);
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      fps.value = '-- FPS';
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh || object instanceof THREE.Points) {
+          object.geometry.dispose();
+          const materials = Array.isArray(object.material) ? object.material : [object.material];
+          materials.forEach(material => material.dispose());
+        }
+      });
+      renderer.dispose();
+      host.removeChild(renderer.domElement);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -96,7 +205,7 @@ export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
     return `${p.x},${p.y}`;
   }).join(' '));
   return (
-    <section className="star-map" aria-label="Mapa estelar de sistemas">
+    <section className={`star-map${openingId ? ' is-opening' : ''}`} aria-label="Mapa estelar de sistemas" aria-busy={openingId !== null}>
       <div className="star-map-header">
         <div><span className="eyebrow">CATÁLOGO ESPACIAL</span><h2>Mapa estelar</h2></div>
         <label className="map-system-limit">Sistemas
@@ -106,6 +215,7 @@ export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
           </select>
         </label>
         <label className="map-names-toggle"><input type="checkbox" role="switch" checked={showNames} onChange={event => setShowNames(event.currentTarget.checked)} />Mostrar nombres</label>
+        <label className="map-connections-toggle"><input type="checkbox" role="switch" checked={showConnections} onChange={event => setShowConnections(event.currentTarget.checked)} />Mostrar conexiones</label>
         <div className="map-zoom-control" role="group" aria-label="Zoom del mapa">
           <button type="button" title="Alejar" aria-label="Alejar" disabled={zoom <= 0.5} onClick={() => setZoom(value => clampZoom(value / 1.2))}>-</button>
           <input type="range" aria-label="Zoom del mapa" aria-valuetext={`${Math.round(zoom * 100)}%`} min="0.5" max="4" step="0.01" value={zoom} onChange={event => setZoom(Number(event.currentTarget.value))} />
@@ -118,7 +228,7 @@ export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
         className="star-map-field"
         ref={fieldRef}
         onPointerDown={(event) => {
-          if (!event.isPrimary || event.button !== 0 || (event.target as Element).closest('button')) return;
+          if (openingId || !event.isPrimary || event.button !== 0 || (event.target as Element).closest('button')) return;
           drag.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
@@ -132,24 +242,41 @@ export function StarMap({ systems, activeId, onOpen, onBack }: StarMapProps) {
         }}
         onLostPointerCapture={() => { drag.current = null; }}
       >
+        <div className="star-map-cosmic-host" ref={cosmicRef} aria-hidden="true" />
+        <output className="scene-fps" ref={fpsRef} aria-label="Fotogramas por segundo del mapa estelar">-- FPS</output>
         <svg className="star-map-grid" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           {rings.map((ring, index) => <polyline key={index} points={ring} />)}
-          {points.map((point) => <line key={point.entry.id} x1="50" y1="52" x2={point.x} y2={point.y} />)}
+          {showConnections && points.map((point) => <line key={point.entry.id} x1="50" y1="52" x2={point.x} y2={point.y} />)}
         </svg>
-        <span className="star-map-origin">⊙ Sol · referencia</span>
-        {points.map(({ entry, x, y }, index) => (
+        <div className="star-map-sun" role="img" aria-label="Sol, referencia del mapa">
+          <i aria-hidden="true" />
+          <span>Sol<small>REFERENCIA · ORIGEN</small></span>
+        </div>
+        {points.map(({ entry, x, y }, index) => {
+          const opening = entry.id === openingId;
+          const twinkle = markerTwinkle(entry.id);
+          return (
           <button
             type="button"
-            className={`star-marker${entry.id === activeId ? ' active' : ''}`}
+            className={`star-marker${entry.id === activeId ? ' active' : ''}${opening ? ' opening' : ''}`}
             key={entry.id}
-            style={{ left: `${x}%`, top: `${y}%`, zIndex: 10 + points.length - index }}
+            style={{
+              left: `${opening ? 50 : x}%`,
+              top: `${opening ? 52 : y}%`,
+              zIndex: opening ? 20000 : 10 + points.length - index,
+              '--star-color': entry.starColorHex,
+              '--twinkle-duration': twinkle.duration,
+              '--twinkle-delay': twinkle.delay,
+            } as CSSProperties}
             aria-label={`Abrir ${entry.name}, estrella`}
             title={`${entry.name} · Estrella`}
-            onClick={() => onOpen(entry)}
+            disabled={openingId !== null}
+            onClick={() => beginOpen(entry)}
           >
             <i aria-hidden="true" /><span>{entry.name}<small>ESTRELLA · {entry.distancePc?.toLocaleString('es-CL', { maximumFractionDigits: 1 })} pc</small></span>
           </button>
-        ))}
+          );
+        })}
       </div>
       <div className="star-map-footer">
         <p>Arrastra para girar · selecciona una estrella para entrar.<br />Coordenadas del catálogo; distancias comprimidas a escala logarítmica.

@@ -12,23 +12,57 @@ escena tridimensional trazable.
 - Conservación de la respuesta tabular original en CSV antes de normalizar.
 - Visualización 3D implementada directamente con Three.js.
 - Cuatro etapas: datos, geometría, apariencia y sistema animado.
+- La etapa Datos muestra la fila normalizada del sistema cuando no hay planeta
+  seleccionado y cambia a la fila planetaria al seleccionar uno.
 - Selección de planetas mediante la lista o directamente sobre la escena.
-- Acercamiento y seguimiento del planeta seleccionado sin reiniciar las órbitas;
-  «Ver sistema completo» recupera el resumen y la vista de conjunto.
-- Sin selección se muestran conteos por categoría visual, distancia al Sistema
-  Solar, radio, masa y temperatura estelar, y coordenadas con procedencia.
-- Velocidad orbital regulable de 0× (pausa) a 4× en la etapa animada.
+- Indicador de FPS en la escena y el mapa estelar, calculado desde sus callbacks
+  de animación y actualizado cada medio segundo sin renders React por fotograma.
+- Acercamiento y seguimiento del planeta seleccionado sin reiniciar las órbitas.
+  La cámara transporta su orientación con el plano orbital para mantener una cara
+  estable; el arrastre manual redefine esa orientación. «Ver sistema completo»
+  recupera el resumen y la vista de conjunto.
+- Sin selección se muestran conteos por categoría visual, distancia y coordenadas,
+  más el perfil estelar NASA: tipo espectral y clase de luminosidad cuando existe,
+  radio, masa, temperatura efectiva, luminosidad, gravedad, edad, densidad,
+  metalicidad, rotación y velocidad radial, todos con procedencia.
+- Tiempo orbital regulable mediante exponentes enteros de 0 a 8: desde 10⁰×
+  hasta 10⁸×, con pausa independiente. 1× conserva el período NASA literalmente;
+  sin período utilizable, el planeta queda inmóvil en su fase inicial.
 - Nombre y tipo de cuerpo al pasar el cursor por una estrella o planeta.
-- Centella estelar procedural en las etapas de apariencia y animación.
+- Esfera estelar luminosa con plasma procedural continuo, núcleo incandescente y
+  halo suave en Apariencia y Sistema. La deformación de dominio produce regiones
+  conectadas que fluyen sin partículas independientes. Se tiñe con el color
+  derivado de temperatura o tipo espectral. Es una estética decorativa inspirada
+  en visualizaciones solares, no una observación de la estrella seleccionada.
+- Escala de cuerpos con dos lecturas: «Legible» mantiene planetas visibles y
+  comprime el radio estelar; «Relación física» conserva el cociente de radios
+  planeta/estrella usando `1 R☉ = 109,076 R⊕`. El área de clic no altera la
+  esfera dibujada.
 - Mapa estelar giratorio con marcadores seleccionables basados en AR, DEC y
   distancia al Sol, comprimida logarítmicamente para la visualización.
+- Los sistemas del mapa son puntos luminosos simples teñidos con el mismo color
+  visual trazable que usa su esfera; sin cruces ni destellos direccionales.
+- El origen solar se distingue mediante un disco volumétrico cálido, corona,
+  rayos y halo propios; es una referencia visual y no un sistema seleccionable.
 - Interruptor «Mostrar nombres» en el mapa; las etiquetas visibles evitan
   solapamientos priorizando las estrellas delante.
-- Fondo de nebulosa decorativo con intensidad regulable; 0% recupera el fondo simple.
+- Interruptor «Mostrar conexiones» para ocultar solo las líneas entre el Sol y
+  los sistemas; los anillos de referencia y marcadores permanecen visibles.
+- Al abrir una estrella desde el mapa, su marcador se centra y amplía mientras
+  carga el sistema. La cámara continúa el acercamiento con la orientación del
+  mapa; planetas y órbitas se activan al entrar en el umbral de detalle y hasta
+  64 estrellas vecinas del catálogo permanecen visibles como contexto.
+- Fondo decorativo tridimensional con una esfera celeste procedural semejante a
+  la banda de la Vía Láctea y 1.800 partículas de profundidad, color y fulgor
+  variables. La nube permanece fija al mover la cámara y acompaña giro/zoom en
+  el mapa estelar, siempre detrás de los marcadores; 0% apaga ambas capas.
 - Inspector de radio, masa, período, semieje mayor, excentricidad, inclinación y
   temperatura de equilibrio.
 - Procedencia explícita: reportado, derivado, asumido o ausente.
 - Órbitas elípticas calculadas desde semieje mayor y excentricidad.
+- Tres representaciones orbitales sin reiniciar la simulación: Completa dibuja la
+  elipse, Traza conserva una cola reciente con desvanecimiento y Ocultar elimina
+  ambas líneas. La pausa congela también la traza.
 - Configuración lista para compilar y publicar en Firebase Hosting.
 
 ## Ejecución local
@@ -107,6 +141,13 @@ public/data/raw/nasa-ps.csv
 public/data/raw/nasa-pscomppars-supplement.csv
 ```
 
+Los parámetros estelares priorizan la solución `ps` con `default_flag=1`. Cuando
+un atributo falta allí, el generador puede completarlo desde `pscomppars` y lo
+declara en `transform`; no mezcla silenciosamente ambas tablas. Una etiqueta como
+«gigante» solo se deriva cuando el tipo espectral reporta esa clase de luminosidad
+Morgan–Keenan explícitamente; las clases de transición conservan ambas etiquetas.
+Los valores ausentes permanecen ausentes.
+
 ## Construcción de producción
 
 ```bash
@@ -134,6 +175,17 @@ equivocado.
 
 - Las escalas de radios y órbitas están normalizadas; no son simultáneamente
   proporcionales.
+- El radio y la luminosidad estelares se inspeccionan como datos, pero el tamaño y
+  brillo de la esfera son visuales y normalizados para mantener legible la escena.
+- En modo legible, el radio estelar usa `clamp(1,45 × R☉^0,28; 0,72; 4,2)` y los
+  planetas conservan la ampliación visual histórica. En relación física, el radio
+  planetario se calcula con la misma escala de la estrella y no recibe un mínimo
+  visible; puede reducirse a un punto o desaparecer a la resolución de pantalla.
+- Las órbitas mantienen su normalización logarítmica independiente: el modo de
+  cuerpos compara radios, no distancias orbitales.
+- La superficie estelar combina FBM tridimensional a varias escalas, deformación
+  de dominio, deriva sostenida y circulación, sin texturas ni costuras UV. La geometría usa
+  64×48 segmentos para una silueta suave; flujo, rotación y halo se congelan a 0×.
 - Si falta el semieje mayor, se deriva con el período y la masa estelar mediante
   la tercera ley de Kepler.
 - Si falta el radio planetario, se usa una aproximación masa-radio solo como

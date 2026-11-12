@@ -30,6 +30,17 @@ def build_planet_rows(hostname: str, count: int) -> list[dict]:
                 "st_rad": 1.0,
                 "st_mass": 1.0,
                 "st_teff": 5800.0,
+                "st_spectype": "G2 V",
+                "st_lum": 0.01,
+                "st_logg": 4.44,
+                "st_age": 4.6,
+                "st_dens": 1.41,
+                "st_met": 0.0,
+                "st_metratio": "[Fe/H]",
+                "st_vsin": 2.0,
+                "st_rotp": 25.0,
+                "st_radv": 12.5,
+                "st_refname": "<a href='https://example.test/star'>Stellar source</a>",
                 "ra": 10.0,
                 "dec": -20.0,
                 "sy_dist": 10.0,
@@ -41,6 +52,41 @@ def build_planet_rows(hostname: str, count: int) -> list[dict]:
 
 
 class FetchNasaSystemsCliTests(unittest.TestCase):
+    def test_stellar_profile_preserves_reported_values_and_derives_visuals(self):
+        rows = build_planet_rows("Red-Giant", 1)
+        rows[0].update(st_spectype="K1 III", st_teff=4600.0, st_rad=12.0)
+
+        system = fetch_nasa_systems.build_system("Red-Giant", rows, "2026-11-12T00:00:00Z", "query", None)
+
+        attributes = system["star"]["attributes"]
+        self.assertEqual(system["schemaVersion"], "0.2.0")
+        self.assertEqual(attributes["spectralType"]["value"], "K1 III")
+        self.assertEqual(attributes["luminosityClass"]["value"], "gigante")
+        self.assertEqual(attributes["luminosityClass"]["status"], "derived")
+        self.assertEqual(attributes["metallicityRatio"]["value"], "[Fe/H]")
+        self.assertEqual(attributes["rotationPeriodDays"]["value"], 25.0)
+        self.assertEqual(attributes["radiusSolar"]["source"]["label"], "Stellar source")
+        self.assertRegex(system["star"]["visual"]["colorHex"]["value"], r"^#[0-9a-f]{6}$")
+        self.assertEqual(system["star"]["visual"]["colorHex"]["status"], "derived")
+
+    def test_missing_stellar_profile_is_absent_and_visual_color_is_assumed(self):
+        rows = build_planet_rows("Unknown-Star", 1)
+        for field in (
+            "st_spectype", "st_rad", "st_mass", "st_teff", "st_lum", "st_logg", "st_age",
+            "st_dens", "st_met", "st_metratio", "st_vsin", "st_rotp", "st_radv",
+        ):
+            rows[0][field] = None
+
+        system = fetch_nasa_systems.build_system("Unknown-Star", rows, "2026-11-12T00:00:00Z", "query", None)
+
+        self.assertTrue(all(attribute["status"] == "absent" for attribute in system["star"]["attributes"].values()))
+        self.assertEqual(system["star"]["visual"]["colorHex"]["status"], "assumed")
+
+    def test_compound_mk_luminosity_class_preserves_both_classes(self):
+        value, transform = fetch_nasa_systems.luminosity_class("K0 III-IV")
+        self.assertEqual(value, "gigante / subgigante")
+        self.assertIn("III/IV", transform)
+
     def test_thousand_systems_use_42_requests_and_reuse_downloads(self):
         hosts = [f"Host-{i:04d}" for i in range(1000)]
         summary = [{"hostname": host, "planet_count": 2, "ra": 10, "dec": -20, "sy_dist": 10} for host in hosts]
@@ -68,6 +114,8 @@ class FetchNasaSystemsCliTests(unittest.TestCase):
             for entry in catalog["systems"]:
                 system = json.loads((Path(tmpdir) / "systems" / f"{entry['id']}.json").read_text(encoding="utf-8"))
                 self.assertEqual(len(system["planets"]), 2)
+                self.assertEqual(entry["starColorHex"], system["star"]["visual"]["colorHex"]["value"])
+                self.assertEqual(entry["starColorStatus"], system["star"]["visual"]["colorHex"]["status"])
                 self.assertIn(system["source"]["query"], requests)
                 self.assertIn(f"'{entry['name']}'", system["source"]["query"])
             self.assertEqual(len(requests), 42)

@@ -6,6 +6,90 @@ Estados activos: **proposed** (por aprobar), **ready** (ejecutable), **in-progre
 
 ## Cola activa
 
+### MAP-008 — Puntos estelares con color trazable
+
+- **Origen:** corrección explícita del usuario sobre NAV-001, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** DAT-005.
+- **Requisito:** reemplazar la apariencia ornamental de los sistemas del mapa por puntos luminosos simples cuyo color coincida exactamente con la derivación usada por la esfera de cada estrella.
+- **Aceptación:** el índice incorpora color visual y estado derivados del detalle sin perder procedencia; generador, TypeScript, catálogo existente, fixtures y validador coinciden. Cada marcador se lee como una fuente puntual intensa: núcleo nítido de 2 px, borde del color exacto y un único resplandor compacto, sin cruces ni mancha difusa. Un destello asincrónico alterna un máximo blanco con una fase tenue donde domina el color; duración/desfase son deterministas y se desactiva con movimiento reducido. Hover, foco, selección, nombres, solapamientos y contraste con el Sol continúan funcionando.
+- **Evidencia prevista:** pruebas offline del generador, validación de 4.659 sistemas, typecheck/build y navegador comparando al menos estrellas fría/caliente/neutra entre punto y esfera.
+
+### NAV-002 — Zoom WebGL real y transformación punto–sistema
+
+- **Origen:** corrección explícita del usuario, 2026-11-12; reemplaza NAV-001. **Prioridad:** P1. **Estado:** ready. **Depende de:** MAP-008, VIS-011 y PERF-001.
+- **Requisito:** mapa y sistema deben compartir una cámara/escena WebGL real. Seleccionar un punto desplaza físicamente la cámara hacia sus coordenadas; al cruzar umbrales, el mismo objeto cambia de punto a esfera y luego activa planetas/órbitas. Las estrellas vecinas permanecen en la escena.
+- **Aceptación:** no hay desmontaje ni cambio de renderer al entrar; posición, orientación y fondo son continuos. El color se conserva punto→esfera. LOD lejano usa puntos, LOD estelar crea solo la esfera seleccionada y LOD planetario crea planetas/órbitas únicamente dentro del umbral, liberándolos al alejarse. Etiquetas/hit areas siguen la proyección WebGL. Volver aleja la misma cámara. Instrumentar objetos, draw calls, memoria y FPS en ambos sentidos.
+- **Evidencia prevista:** decisión de escalas/umbrales, migración del mapa DOM a proyección sobre una escena persistente, pruebas unitarias de LOD, build y navegador/GPU con entrada/salida, cambio/cancelación de destino, vecinos, selección planetaria, etapas y limpieza.
+
+### MAP-006 — Geometría distintiva del Sol
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** MAP-004.
+- **Requisito:** representar el Sol del origen con una geometría y apariencia inequívocamente distintas de los sistemas exoplanetarios.
+- **Aceptación:** el origen muestra un disco esférico aparente con volumen, núcleo cálido, corona y halo propios, de mayor jerarquía que los puntos del catálogo; mantiene la etiqueta de referencia y no se confunde con un sistema seleccionable. Conserva giro, zoom, etiquetas y rendimiento del mapa.
+- **Evidencia prevista:** typecheck/build y navegador en varios zooms/orientaciones, con fondo 0%/100%, etiquetas visibles/ocultas y contraste frente a marcadores.
+
+### MAP-007 — Interruptor de conexiones Sol–estrellas
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** MAP-006.
+- **Requisito:** permitir ocultar y mostrar las líneas radiales que conectan el Sol con los sistemas, sin ocultar los anillos de referencia.
+- **Aceptación:** un interruptor accesible cambia solo las conexiones, conserva giro, zoom, cantidad, nombres y selección, y no reconstruye la capa cósmica ni altera los datos.
+- **Evidencia prevista:** build y navegador con ambos estados antes/después de giro, zoom, cambio de cantidad y apertura de sistema.
+
+### PERF-001 — Contador de FPS de escena y mapa
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.
+- **Requisito:** mostrar tanto en la escena 3D como en el mapa estelar una lectura de fotogramas por segundo sin provocar renders React por fotograma.
+- **Aceptación:** cada vista presenta un indicador discreto y legible calculado desde `requestAnimationFrame`, actualizado como máximo unas pocas veces por segundo mediante una referencia DOM y reiniciado al recrear o desmontar la vista. La escena mide su bucle de render; el mapa mide la cadencia de callbacks del navegador con un observador propio. No altera reloj, cámara, selección, pausa, mapa ni recursos WebGL.
+- **Evidencia prevista:** typecheck/build, comprobación del cálculo con intervalos conocidos y navegador para observar ambas vistas, estabilidad y limpieza al cambiar mapa/escena, etapa o sistema.
+
+### VIS-011 — Fondo cósmico de partículas inspirado en la referencia
+
+- **Origen:** solicitud del usuario y referencia visual [Three.js Solar System](https://discourse.threejs.org/t/three-js-solar-system/63187), 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** PERF-001 para medir el impacto.
+- **Requisito:** reemplazar el fondo SVG anterior por partículas inspiradas en la demo y una nube celeste global semejante a la Vía Láctea vista desde tierra, mayor que el volumen navegable para que el encuadre cambie al mover la cámara.
+- **Aceptación:** implementación local y original con `THREE.Points` para estrellas y una esfera procedural invertida para banda galáctica, nubes luminosas y carriles de polvo. La nube permanece fija en el mundo, envuelve todo el rango de la cámara de sistema y aparece también detrás del mapa, donde acompaña giro y zoom sin confundirse con los marcadores NASA. Ambas vistas responden al control Fondo cósmico; 0% recupera el fondo simple. Conserva cámara/selección/reloj y libera renderers, geometrías/materiales al desmontar. El SVG anterior y su capa CSS quedan eliminados. Medir FPS antes y después bajo el mismo escenario.
+- **Evidencia prevista:** inspección de la demo y su repositorio público, revisión de licencia antes de copiar cualquier código o recurso, build y navegador/WebGL con fondo 0%/100%, movimiento de cámara, cambio de sistema y medición reproducible. Si no hay licencia compatible identificable, reproducir el efecto sin copiar código ni recursos externos.
+
+### ORB-004 — Selector de escala temporal por exponentes
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** ORB-003.
+- **Requisito:** sustituir los multiplicadores discretos bajos por una escala elegida como potencia de diez, con exponentes enteros consecutivos y pausa independiente.
+- **Aceptación:** el usuario puede elegir cualquier exponente entero entre 0 y 8, equivalente a multiplicadores desde 1× hasta 100.000.000×. Cambiar exponente no reinicia reloj, selección, cámara ni trazas; Pausa conserva el exponente elegido y Reanudar recupera exactamente su multiplicador. La UI explica el exponente y el valor resultante. El máximo se limita a 10⁸× para reducir vueltas subfotograma y pérdida de lectura que produciría 10¹⁰× en períodos cortos.
+- **Evidencia prevista:** typecheck/build, comprobación numérica de los nueve exponentes y navegador con cambio de escala, pausa/reanudación, cámara enfocada y trazas.
+
+### ORB-003 — Períodos físicos y multiplicadores temporales
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** ORB-001 y ORB-002.
+- **Requisito:** calcular cada velocidad angular desde `periodDays` sin normalización relativa al planeta más rápido. ORB-004 sustituye la primera propuesta de multiplicadores discretos 1×/10×/100×/1000× por exponentes pares.
+- **Aceptación:** 1× usa tiempo literal: una órbita completa consume `periodDays × 86.400` segundos reales y cualquier multiplicador afecta el reloj linealmente. Pausa, trazas, selección y cámara continúan sin saltos. Un período ausente o no positivo queda inmóvil en su fase determinista, sin fallback inventado. Las trazas conservan aproximadamente cuatro segundos de historial visual incluso a multiplicadores altos.
+- **Evidencia prevista:** casos numéricos con períodos corto y largo, continuidad pausa/reanudación, planeta sin período y navegador con trazas/cámara usando el selector de ORB-004.
+
+### UI-003 — Datos del sistema visibles en etapa Datos
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** DAT-005.
+- **Requisito:** al entrar en Datos sin planeta seleccionado debe mostrarse la fila normalizada del sistema, en lugar de una escena vacía.
+- **Aceptación:** Datos muestra nombre, cantidad de planetas, distancia, tipo espectral, clase de luminosidad, radio, masa y temperatura estelar con valor y estado; cero válido no aparece como ausencia. Si hay planeta seleccionado conserva su fila planetaria. Cambiar etapa o sistema no altera selección, foco ni reloj y no crea geometrías en Datos.
+- **Evidencia prevista:** typecheck/build; navegador para sistema sin selección, planeta seleccionado, cambio de sistema y retorno a etapas 2–4. No modificar catálogo ni contrato.
+
+### ORB-002 — Órbita completa, traza y ocultar
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** ORB-001.
+- **Requisito:** ofrecer tres modos de representación orbital: Completa conserva las elipses actuales; Traza dibuja detrás de cada planeta una cola que se desvanece; Ocultar no dibuja líneas orbitales.
+- **Aceptación:** un control accesible alterna Completa/Traza/Ocultar sin reconstruir escena, reiniciar reloj, cambiar selección o mover cámara. Traza sigue posición, inclinación y excentricidad, crece con el movimiento, desvanece por antigüedad y permanece inmóvil a 0×; no deja saltos al reanudar. Ocultar elimina elipses y trazas. Cambiar sistema/etapa libera buffers y materiales.
+- **Evidencia prevista:** typecheck/build y navegador en 10⁰×/10⁶×/pausa con selección, foco, cambio de modo, etapa y sistema; revisar consola/memoria. No modificar catálogo ni dependencias.
+
+### VIS-005 — Escala comparativa estrella–planetas
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** DAT-005 y VIS-004 implementados.
+- **Requisito:** hacer perceptible la variación de tamaño estelar y ofrecer una lectura de la relación real de radios entre estrella y planetas sin volver inutilizable la escena.
+- **Aceptación:** el radio estelar reportado modifica su esfera mediante una compresión visual documentada; si falta, usa tamaño neutro asumido sin presentarlo como dato. Un control Legible/Relación física no reinicia reloj, selección ni cámara. En Relación física, cada radio planetario dibujado cumple `Rplaneta/(Restrella×109,1)` sin mínimo visual; si falta radio estelar, el modo queda indisponible. Un proxy invisible conserva hover/clic de planetas diminutos. Órbitas no cambian, Geometría/Apariencia/Sistema conservan contratos y la UI explica qué escala está activa.
+- **Evidencia prevista:** caso numérico reproducible Tierra/Sol y gigante gaseoso; typecheck/build; navegador para alternancia, estrella enana/solar/gigante, planetas diminutos, picking, foco, pausa/reanudación y ausencia de reinicios. No modificar catálogo ni dependencias.
+
+### DAT-005 — Perfil estelar NASA y esfera luminosa trazable
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.
+- **Requisito:** incorporar los parámetros estelares disponibles en NASA `ps`, mostrarlos con procedencia y representar la estrella como una esfera luminosa con color respaldado por temperatura o tipo espectral.
+- **Aceptación:** el contrato conserva tipo espectral, radio, masa, temperatura efectiva, luminosidad, gravedad, edad, densidad, metalicidad y razón, velocidad/período de rotación y velocidad radial con estados reportado/ausente; una clase de luminosidad solo se deriva de una clase MK explícita. El color visual se deriva primero de temperatura, luego de tipo espectral, y queda asumido si ambos faltan. La escena usa una esfera visible y luminosa en Apariencia/Sistema, wireframe en Geometría, mantiene picking, cámara, selección y reloj, y libera recursos al desmontar. Inspector, tipos, fixtures y validador coinciden con el JSON.
+- **Evidencia prevista:** pruebas offline del generador para datos presentes/ausentes y derivaciones, validación del catálogo, typecheck/build y revisión en navegador de esfera, color, picking y regresiones de reloj/cámara/selección. El refresco no debe mezclar contratos ni sobrescribir datos si falla NASA.
+
 ### MAP-005 — Mayor separación visual y zoom del mapa
 
 - **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.

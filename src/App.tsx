@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { loadCatalog, loadSystem } from './data';
 import { ThreeScene } from './ThreeScene';
 import { StarMap } from './StarMap';
@@ -6,9 +6,13 @@ import type {
   CatalogEntry,
   CatalogIndex,
   ExoplanetSystem,
+  OrbitDisplayMode,
+  MapNavigationContext,
   Planet,
   ProvenanceStatus,
   ScientificAttribute,
+  TextAttribute,
+  SystemEntryTransition,
 } from './types';
 
 const STAGES = [
@@ -55,6 +59,11 @@ function formatAttribute(attribute: ScientificAttribute) {
   })`;
 }
 
+function formatDisplayAttribute(attribute: ScientificAttribute | TextAttribute) {
+  if ('unit' in attribute) return formatAttribute(attribute);
+  return attribute.value ?? 'Sin dato';
+}
+
 function StatusBadge({ status }: { status: ProvenanceStatus }) {
   return <span className={`status-badge status-${status}`}>{STATUS_LABELS[status]}</span>;
 }
@@ -75,10 +84,19 @@ function App() {
   const [system, setSystem] = useState<ExoplanetSystem | null>(null);
   const [selectedPlanetId, setSelectedPlanetId] = useState<string | null>(null);
   const [focusedPlanetId, setFocusedPlanetId] = useState<string | null>(null);
-  const [playbackRate, setPlaybackRate] = useState(1);
+  const [timeExponent, setTimeExponent] = useState(0);
+  const [playbackPaused, setPlaybackPaused] = useState(false);
+  const [bodyScaleMode, setBodyScaleMode] = useState<'legible' | 'relative'>('legible');
+  const [orbitDisplayMode, setOrbitDisplayMode] = useState<OrbitDisplayMode>('complete');
   const [backgroundStrength, setBackgroundStrength] = useState(0.75);
   const [showMap, setShowMap] = useState(false);
+  const [sceneRevision, setSceneRevision] = useState(0);
+  const [systemEntryTransition, setSystemEntryTransition] = useState<SystemEntryTransition | null>(null);
+  const pendingMapTransition = useRef<SystemEntryTransition | null>(null);
+  const transitionToken = useRef(0);
   const [stage, setStage] = useState(4);
+  const timeMultiplier = 10 ** timeExponent;
+  const playbackRate = playbackPaused ? 0 : timeMultiplier;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -105,6 +123,13 @@ function App() {
         setSelectedPlanetId(null);
         setFocusedPlanetId(null);
         setError(null);
+        const pending = pendingMapTransition.current;
+        if (pending?.entryId === nextSystem.id) {
+          pendingMapTransition.current = null;
+          setSystemEntryTransition(pending);
+          setSceneRevision(value => value + 1);
+          setShowMap(false);
+        }
       })
       .catch((cause: unknown) => {
         if (!current) return;
@@ -118,6 +143,8 @@ function App() {
     () => system?.planets.find((planet) => planet.id === selectedPlanetId) ?? null,
     [system, selectedPlanetId],
   );
+  const hasStellarRadius = (system?.star.attributes.radiusSolar.value ?? 0) > 0;
+  const effectiveBodyScaleMode = bodyScaleMode === 'relative' && hasStellarRadius ? 'relative' : 'legible';
 
   const handlePlanetSelect = useCallback((planetId: string) => {
     setSelectedPlanetId(planetId);
@@ -125,8 +152,27 @@ function App() {
   }, []);
   const centerStar = useCallback(() => setFocusedPlanetId(null), []);
   const showSystem = () => { setSelectedPlanetId(null); setFocusedPlanetId(null); };
-  const openSystem = (entry: CatalogEntry) => {
+  const openSystem = (entry: CatalogEntry, mapView?: MapNavigationContext) => {
+    if (mapView) {
+      const transition = { ...mapView, entryId: entry.id, token: transitionToken.current += 1 };
+      if (system?.id === entry.id) {
+        setSystemEntryTransition(transition);
+        setSceneRevision(value => value + 1);
+        setShowMap(false);
+      } else {
+        pendingMapTransition.current = transition;
+        setActiveEntry(entry);
+      }
+      return;
+    }
+    pendingMapTransition.current = null;
+    setSystemEntryTransition(null);
     setActiveEntry(entry);
+    setShowMap(false);
+  };
+  const closeMap = () => {
+    setSystemEntryTransition(null);
+    setSceneRevision(value => value + 1);
     setShowMap(false);
   };
 
@@ -162,7 +208,7 @@ function App() {
         <div className="panel-heading">
           <span className="eyebrow">CATÁLOGO</span>
           <h1>Sistemas</h1>
-          <button className="space-button map-launch" type="button" onClick={() => setShowMap(!showMap)}>
+          <button className="space-button map-launch" type="button" onClick={() => showMap ? closeMap() : setShowMap(true)}>
             {showMap ? 'Volver al sistema' : 'Abrir mapa estelar'}
           </button>
         </div>
@@ -199,9 +245,8 @@ function App() {
       </aside>
 
       <main className="viewport">
-        <div className="cosmic-background" style={{ opacity: backgroundStrength }} aria-hidden="true" />
-        {showMap && catalog && <StarMap systems={catalog.systems} activeId={activeEntry?.id}
-          onOpen={openSystem} onBack={() => setShowMap(false)} />}
+        {showMap && catalog && <StarMap systems={catalog.systems} activeId={activeEntry?.id} backgroundStrength={backgroundStrength}
+          onOpen={openSystem} onBack={closeMap} />}
         <div className="system-view" hidden={showMap}>
         <div className="stage-selector" role="tablist" aria-label="Etapas de construcción visual">
           {STAGES.map((item) => (
@@ -227,6 +272,14 @@ function App() {
               selectedPlanetId={selectedPlanet?.id ?? null}
               focusedPlanetId={focusedPlanetId}
               playbackRate={playbackRate}
+              backgroundStrength={backgroundStrength}
+              catalogSystems={catalog?.systems ?? []}
+              activeCatalogId={activeEntry?.id ?? system.id}
+              entryTransition={systemEntryTransition}
+              sceneRevision={sceneRevision}
+              onEntryTransitionComplete={() => setSystemEntryTransition(null)}
+              bodyScaleMode={effectiveBodyScaleMode}
+              orbitDisplayMode={orbitDisplayMode}
               onSelectPlanet={handlePlanetSelect}
               onSelectStar={centerStar}
               active={!showMap}
@@ -234,32 +287,73 @@ function App() {
             <div className="scene-heading">
               <span className="eyebrow">{STAGES[stage - 1].description}</span>
               <h2>{selectedPlanet?.name ?? system.name}</h2>
-              <span className="scale-warning">ESCALA VISUAL NORMALIZADA</span>
+              <span className="scale-warning">
+                {effectiveBodyScaleMode === 'relative' ? 'PROPORCIÓN DE RADIOS FÍSICA' : 'TAMAÑOS VISUALES COMPRIMIDOS'}
+              </span>
             </div>
-            {stage === 1 && selectedPlanet && <DataStage planet={selectedPlanet} />}
+            {stage === 1 && <DataStage system={system} planet={selectedPlanet} />}
             {stage >= 2 && (
               <div className="scene-controls">
                 {selectedPlanet && (
                   <button type="button" onClick={showSystem}>Ver sistema completo</button>
                 )}
+                <div className="body-scale-control" role="group" aria-label="Escala visual de los cuerpos">
+                  <span>Escala</span>
+                  <button type="button" className={effectiveBodyScaleMode === 'legible' ? 'active' : ''}
+                    aria-pressed={effectiveBodyScaleMode === 'legible'} onClick={() => setBodyScaleMode('legible')}>
+                    Legible
+                  </button>
+                  <button type="button" className={effectiveBodyScaleMode === 'relative' ? 'active' : ''}
+                    aria-pressed={effectiveBodyScaleMode === 'relative'} disabled={!hasStellarRadius}
+                    title={hasStellarRadius ? 'Radios planeta/estrella en proporción física' : 'Sin radio estelar reportado'}
+                    onClick={() => setBodyScaleMode('relative')}>
+                    Relación física
+                  </button>
+                </div>
+                <div className="body-scale-control orbit-mode-control" role="group" aria-label="Visualización de órbitas">
+                  <span>Órbitas</span>
+                  {([
+                    ['complete', 'Completa'],
+                    ['trail', 'Traza'],
+                    ['hidden', 'Ocultar'],
+                  ] as [OrbitDisplayMode, string][]).map(([mode, label]) => (
+                    <button key={mode} type="button" className={orbitDisplayMode === mode ? 'active' : ''}
+                      aria-pressed={orbitDisplayMode === mode}
+                      title={mode === 'trail' ? 'La cola se forma mientras los planetas avanzan' : undefined}
+                      onClick={() => setOrbitDisplayMode(mode)}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
                 {stage === 4 && (
-                  <label className="playback-control">
-                    <span>Velocidad orbital</span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="4"
-                      step="0.25"
-                      value={playbackRate}
-                      aria-valuetext={playbackRate === 0 ? 'En pausa' : `${playbackRate} veces`}
-                      onChange={(event) => setPlaybackRate(event.currentTarget.valueAsNumber)}
-                    />
-                    <output>{playbackRate === 0 ? 'Pausa' : `${playbackRate.toLocaleString('es-CL')}×`}</output>
-                  </label>
+                  <div className="body-scale-control playback-rate-control" role="group"
+                    aria-label="Multiplicador de tiempo orbital"
+                    title="El exponente n aplica 10ⁿ× al período NASA literal">
+                    <span>Tiempo</span>
+                    <button type="button" className={playbackPaused ? 'active' : ''}
+                      aria-pressed={playbackPaused}
+                      onClick={() => setPlaybackPaused(paused => !paused)}>
+                      {playbackPaused ? 'Reanudar' : 'Pausa'}
+                    </button>
+                    <label className="time-exponent-control" htmlFor="time-exponent">
+                      <span>Exponente</span>
+                      <input id="time-exponent" type="range" min="0" max="8" step="1"
+                        value={timeExponent}
+                        aria-valuetext={`10 elevado a ${timeExponent}, ${timeMultiplier.toLocaleString('es-CL')} veces`}
+                        onChange={(event) => setTimeExponent(Number(event.target.value))} />
+                    </label>
+                    <output htmlFor="time-exponent">
+                      10<sup>{timeExponent}</sup> = {timeMultiplier.toLocaleString('es-CL')}×
+                    </output>
+                  </div>
                 )}
               </div>
             )}
-            <div className="scene-help">Arrastra para orbitar · rueda para acercar · selecciona un planeta</div>
+            <div className="scene-help">
+              {effectiveBodyScaleMode === 'relative'
+                ? 'Radios en proporción física · los planetas pequeños pueden verse como puntos'
+                : 'Arrastra para orbitar · rueda para acercar · selecciona un planeta'}
+            </div>
           </>
         )}
         {loading && <div className="viewport-loading">Cargando sistema…</div>}
@@ -326,11 +420,23 @@ function SystemSummary({ system, onSelect }: { system: ExoplanetSystem; onSelect
     result[category] = (result[category] ?? 0) + 1;
     return result;
   }, {});
-  const attributes: [string, ScientificAttribute][] = [
+  const attributes: [string, ScientificAttribute | TextAttribute][] = [
     ['Distancia al Sistema Solar', system.coordinates.distancePc],
+    ['Tipo espectral', system.star.attributes.spectralType],
+    ['Clase de luminosidad', system.star.attributes.luminosityClass],
     ['Radio de la estrella', system.star.attributes.radiusSolar],
     ['Masa de la estrella', system.star.attributes.massSolar],
-    ['Temperatura de la estrella', system.star.attributes.temperatureK],
+    ['Temperatura efectiva', system.star.attributes.temperatureK],
+    ['Luminosidad', system.star.attributes.luminosityLogSolar],
+    ['Gravedad superficial', system.star.attributes.surfaceGravityLogCgs],
+    ['Edad', system.star.attributes.ageGyr],
+    ['Densidad', system.star.attributes.densityGcm3],
+    ['Metalicidad', system.star.attributes.metallicityDex],
+    ['Razón de metalicidad', system.star.attributes.metallicityRatio],
+    ['Velocidad de rotación proyectada', system.star.attributes.rotationalVelocityKms],
+    ['Período de rotación', system.star.attributes.rotationPeriodDays],
+    ['Velocidad radial sistémica', system.star.attributes.radialVelocityKms],
+    ['Color visual de la estrella', system.star.visual.colorHex],
     ['Ascensión recta', system.coordinates.rightAscensionDeg],
     ['Declinación', system.coordinates.declinationDeg],
   ];
@@ -342,7 +448,12 @@ function SystemSummary({ system, onSelect }: { system: ExoplanetSystem; onSelect
     </article>
     {attributes.map(([label, attribute]) => <article className="attribute-card" key={label}>
       <div className="attribute-title"><span>{label}</span><StatusBadge status={attribute.status} /></div>
-      <strong>{formatAttribute(attribute)}</strong>
+      <strong>
+        {label === 'Color visual de la estrella' && attribute.value && (
+          <i className="stellar-color-swatch" style={{ backgroundColor: String(attribute.value) }} aria-hidden="true" />
+        )}
+        {formatDisplayAttribute(attribute)}
+      </strong>
       {attribute.transform && <p>{attribute.transform}</p>}
       <footer>{attribute.source.url ? <a href={attribute.source.url} target="_blank" rel="noreferrer">{attribute.source.label}</a> : <span>{attribute.source.label}</span>}</footer>
     </article>)}
@@ -353,24 +464,41 @@ function SystemSummary({ system, onSelect }: { system: ExoplanetSystem; onSelect
   </div>;
 }
 
-function DataStage({ planet }: { planet: Planet }) {
-  const visibleKeys = ['radiusEarth', 'periodDays', 'semiMajorAu', 'eccentricity'];
+function DataStage({ system, planet }: { system: ExoplanetSystem; planet: Planet | null }) {
+  const attributeRow = (label: string, attribute: ScientificAttribute | TextAttribute) => ({
+    label,
+    value: formatDisplayAttribute(attribute),
+    status: attribute.status,
+  });
+  const rows: { label: string; value: string; status: ProvenanceStatus }[] = planet
+    ? ['radiusEarth', 'periodDays', 'semiMajorAu', 'eccentricity'].map((key) => {
+        const attribute = planet.attributes[key as keyof Planet['attributes']];
+        return { label: ATTRIBUTE_LABELS[key], value: formatAttribute(attribute), status: attribute.status };
+      })
+    : [
+        { label: 'Planetas en el sistema', value: String(system.planets.length), status: 'derived' },
+        attributeRow('Distancia al Sistema Solar', system.coordinates.distancePc),
+        attributeRow('Tipo espectral', system.star.attributes.spectralType),
+        attributeRow('Clase de luminosidad', system.star.attributes.luminosityClass),
+        attributeRow('Radio de la estrella', system.star.attributes.radiusSolar),
+        attributeRow('Masa de la estrella', system.star.attributes.massSolar),
+        attributeRow('Temperatura efectiva', system.star.attributes.temperatureK),
+      ];
   return (
     <section className="data-stage-card">
-      <span className="eyebrow">FILA NORMALIZADA · {planet.name}</span>
+      <span className="eyebrow">FILA NORMALIZADA · {planet?.name ?? system.name}</span>
       <div className="data-table">
-        {visibleKeys.map((key) => {
-          const attribute = planet.attributes[key as keyof Planet['attributes']];
-          return (
-            <div key={key}>
-              <span>{ATTRIBUTE_LABELS[key]}</span>
-              <strong>{formatAttribute(attribute)}</strong>
-              <StatusBadge status={attribute.status} />
-            </div>
-          );
-        })}
+        {rows.map((row) => (
+          <div key={row.label}>
+            <span>{row.label}</span>
+            <strong>{row.value}</strong>
+            <StatusBadge status={row.status} />
+          </div>
+        ))}
       </div>
-      <p>En esta etapa todavía no se construyen geometrías. Primero se inspeccionan los valores y su procedencia.</p>
+      <p>{planet
+        ? 'Fila planetaria normalizada. El inspector conserva fuente, incertidumbre y transformación.'
+        : 'Resumen normalizado del sistema. El inspector conserva el perfil estelar completo y sus fuentes.'}</p>
     </section>
   );
 }

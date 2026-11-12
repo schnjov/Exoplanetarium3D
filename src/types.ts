@@ -1,4 +1,16 @@
 export type ProvenanceStatus = 'reported' | 'derived' | 'assumed' | 'absent';
+export type OrbitDisplayMode = 'complete' | 'trail' | 'hidden';
+
+export interface MapNavigationContext {
+  yaw: number;
+  pitch: number;
+  zoom: number;
+}
+
+export interface SystemEntryTransition extends MapNavigationContext {
+  entryId: string;
+  token: number;
+}
 
 export interface Uncertainty {
   plus: number | null;
@@ -15,6 +27,13 @@ export interface ScientificAttribute {
   unit: string;
   status: ProvenanceStatus;
   uncertainty: Uncertainty;
+  source: SourceReference;
+  transform: string | null;
+}
+
+export interface TextAttribute {
+  value: string | null;
+  status: ProvenanceStatus;
   source: SourceReference;
   transform: string | null;
 }
@@ -65,9 +84,23 @@ export interface ExoplanetSystem {
   star: {
     name: string;
     attributes: {
+      spectralType: TextAttribute;
+      luminosityClass: TextAttribute;
       radiusSolar: ScientificAttribute;
       massSolar: ScientificAttribute;
       temperatureK: ScientificAttribute;
+      luminosityLogSolar: ScientificAttribute;
+      surfaceGravityLogCgs: ScientificAttribute;
+      ageGyr: ScientificAttribute;
+      densityGcm3: ScientificAttribute;
+      metallicityDex: ScientificAttribute;
+      metallicityRatio: TextAttribute;
+      rotationalVelocityKms: ScientificAttribute;
+      rotationPeriodDays: ScientificAttribute;
+      radialVelocityKms: ScientificAttribute;
+    };
+    visual: {
+      colorHex: TextAttribute;
     };
   };
   planets: Planet[];
@@ -81,6 +114,8 @@ export interface CatalogEntry {
   distancePc: number | null;
   rightAscensionDeg: number | null;
   declinationDeg: number | null;
+  starColorHex: string;
+  starColorStatus: 'derived' | 'assumed';
   completeness: number;
   path: string;
 }

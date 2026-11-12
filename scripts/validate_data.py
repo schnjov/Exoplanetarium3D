@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -22,7 +23,24 @@ def main() -> None:
         system_path = ROOT / "public" / entry["path"].lstrip("/")
         system = json.loads(system_path.read_text(encoding="utf-8"))
         assert system["id"] == entry["id"]
+        assert system["schemaVersion"] == index["schemaVersion"] == "0.2.0"
         assert len(system["planets"]) == entry["planetCount"]
+        stellar_attributes = system["star"]["attributes"]
+        expected_stellar_attributes = {
+            "spectralType", "luminosityClass", "radiusSolar", "massSolar", "temperatureK",
+            "luminosityLogSolar", "surfaceGravityLogCgs", "ageGyr", "densityGcm3",
+            "metallicityDex", "metallicityRatio", "rotationalVelocityKms", "rotationPeriodDays",
+            "radialVelocityKms",
+        }
+        assert set(stellar_attributes) == expected_stellar_attributes, f"Perfil estelar incompleto: {entry['id']}"
+        for value in stellar_attributes.values():
+            assert value["status"] in {"reported", "derived", "assumed", "absent"}
+            assert value["value"] is not None or value["status"] == "absent"
+        visual_color = system["star"]["visual"]["colorHex"]
+        assert visual_color["status"] in {"derived", "assumed"}
+        assert re.fullmatch(r"#[0-9a-f]{6}", visual_color["value"]), f"Color estelar inválido: {entry['id']}"
+        assert entry["starColorHex"] == visual_color["value"], f"Color índice/detalle inconsistente: {entry['id']}"
+        assert entry["starColorStatus"] == visual_color["status"], f"Estado de color inconsistente: {entry['id']}"
         for key in ("rightAscensionDeg", "declinationDeg", "distancePc"):
             assert entry[key] == system["coordinates"][key]["value"], f"Coordenada inconsistente: {entry['id']} / {key}"
         planet_ids: set[str] = set()

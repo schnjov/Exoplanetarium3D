@@ -55,9 +55,36 @@ QUERY_COLUMNS = [
     "st_rad", "st_raderr1", "st_raderr2",
     "st_mass", "st_masserr1", "st_masserr2",
     "st_teff", "st_tefferr1", "st_tefferr2",
+    "st_spectype",
+    "st_lum", "st_lumerr1", "st_lumerr2",
+    "st_logg", "st_loggerr1", "st_loggerr2",
+    "st_age", "st_ageerr1", "st_ageerr2",
+    "st_dens", "st_denserr1", "st_denserr2",
+    "st_met", "st_meterr1", "st_meterr2", "st_metratio",
+    "st_vsin", "st_vsinerr1", "st_vsinerr2",
+    "st_rotp", "st_rotperr1", "st_rotperr2",
+    "st_radv", "st_radverr1", "st_radverr2", "st_refname",
     "ra", "dec", "sy_dist", "sy_disterr1", "sy_disterr2",
     "disc_year", "rowupdate", "pl_refname",
 ]
+
+STELLAR_FIELDS = (
+    "st_spectype", "st_rad", "st_mass", "st_teff", "st_lum", "st_logg",
+    "st_age", "st_dens", "st_met", "st_metratio", "st_vsin", "st_rotp", "st_radv",
+)
+STELLAR_NUMERIC_FIELDS = tuple(field for field in STELLAR_FIELDS if field not in {"st_spectype", "st_metratio"})
+STELLAR_REFERENCE_FIELDS = {
+    field: ("st_met_reflink" if field == "st_metratio" else f"{field}_reflink")
+    for field in STELLAR_FIELDS
+}
+SUPPLEMENT_COLUMNS = ["hostname", "sy_dist", "sy_disterr1", "sy_disterr2"]
+for _field in STELLAR_FIELDS:
+    SUPPLEMENT_COLUMNS.append(_field)
+    if _field in STELLAR_NUMERIC_FIELDS:
+        SUPPLEMENT_COLUMNS.extend((f"{_field}err1", f"{_field}err2"))
+    reference_field = STELLAR_REFERENCE_FIELDS[_field]
+    if reference_field not in SUPPLEMENT_COLUMNS:
+        SUPPLEMENT_COLUMNS.append(reference_field)
 
 
 @dataclass(frozen=True)
@@ -102,6 +129,90 @@ def attribute(
         "source": {"label": source.label, "url": source.url},
         "transform": transform,
     }
+
+
+def text_attribute(
+    value: str | None,
+    status: str,
+    source: Reference,
+    *,
+    transform: str | None = None,
+) -> dict[str, Any]:
+    return {
+        "value": value,
+        "status": status,
+        "source": {"label": source.label, "url": source.url},
+        "transform": transform,
+    }
+
+
+def luminosity_class(spectral_type: str | None) -> tuple[str | None, str | None]:
+    """Extrae clases de luminosidad únicamente cuando están escritas en el tipo MK."""
+    if not spectral_type:
+        return None, None
+    matches = re.findall(r"(?<![IV])(VII|VI|IV|III|II|I|V)(?![IV])", spectral_type.upper())
+    if not matches:
+        return None, None
+    labels = {
+        "I": "supergigante",
+        "II": "gigante luminosa",
+        "III": "gigante",
+        "IV": "subgigante",
+        "V": "secuencia principal (enana)",
+        "VI": "subenana",
+        "VII": "enana blanca",
+    }
+    raw_classes = list(dict.fromkeys(matches))
+    class_label = " / ".join(labels[raw_class] for raw_class in raw_classes)
+    raw_label = "/".join(raw_classes)
+    return class_label, f"Clase de luminosidad {raw_label} extraída del tipo espectral MK reportado"
+
+
+def temperature_rgb_hex(temperature_k: float) -> str:
+    """Aproxima el color RGB de cuerpo negro para uso exclusivamente visual."""
+    temperature = max(1000.0, min(40000.0, temperature_k)) / 100.0
+    if temperature <= 66:
+        red = 255.0
+        green = 99.4708025861 * math.log(temperature) - 161.1195681661
+        blue = 0.0 if temperature <= 19 else 138.5177312231 * math.log(temperature - 10) - 305.0447927307
+    else:
+        red = 329.698727446 * (temperature - 60) ** -0.1332047592
+        green = 288.1221695283 * (temperature - 60) ** -0.0755148492
+        blue = 255.0
+    channels = [round(max(0.0, min(255.0, channel))) for channel in (red, green, blue)]
+    return "#" + "".join(f"{channel:02x}" for channel in channels)
+
+
+def stellar_visual_color(
+    temperature_k: float | None,
+    spectral_type: str | None,
+    source: Reference,
+) -> dict[str, Any]:
+    if temperature_k is not None and math.isfinite(temperature_k) and temperature_k > 0:
+        return text_attribute(
+            temperature_rgb_hex(temperature_k),
+            "derived",
+            source,
+            transform="Color visual aproximado como cuerpo negro desde la temperatura efectiva reportada; no es fotometría observada",
+        )
+    spectral_class = spectral_type.strip().upper()[:1] if spectral_type else ""
+    colors = {
+        "O": "#9bb0ff", "B": "#aabfff", "A": "#cad7ff", "F": "#f8f7ff",
+        "G": "#fff4ea", "K": "#ffd2a1", "M": "#ffcc6f",
+    }
+    if spectral_class in colors:
+        return text_attribute(
+            colors[spectral_class],
+            "derived",
+            source,
+            transform=f"Color visual aproximado desde la clase espectral {spectral_class}; no es fotometría observada",
+        )
+    return text_attribute(
+        "#fff4dc",
+        "assumed",
+        Reference("Decisión visual del proyecto", None),
+        transform="Color neutro asumido porque faltan temperatura efectiva y clase espectral utilizables",
+    )
 
 
 def derived_semimajor_au(period_days: float | None, star_mass_solar: float | None) -> float | None:
@@ -254,9 +365,59 @@ def build_system(
     supplement: dict[str, Any] | None,
 ) -> dict[str, Any]:
     first = rows[0]
-    radius_row = first_row_with_value(rows, "st_rad")
-    mass_row = first_row_with_value(rows, "st_mass")
-    temperature_row = first_row_with_value(rows, "st_teff")
+    stellar_rows: dict[str, dict[str, Any]] = {}
+    for field in STELLAR_FIELDS:
+        row = first_row_with_value(rows, field)
+        if row.get(field) is None and supplement and supplement.get(field) is not None:
+            row = dict(supplement)
+            row["st_refname"] = supplement.get(STELLAR_REFERENCE_FIELDS[field])
+            row["_from_pscomppars"] = True
+        stellar_rows[field] = row
+    spectral_type = stellar_rows["st_spectype"].get("st_spectype")
+    derived_luminosity_class, luminosity_class_transform = luminosity_class(spectral_type)
+    def stellar_reference(row: dict[str, Any]) -> Reference:
+        if row.get("st_refname"):
+            return reference_from_html(row["st_refname"])
+        if row.get("_from_pscomppars"):
+            return Reference(
+                "NASA Exoplanet Archive, pscomppars",
+                "https://exoplanetarchive.ipac.caltech.edu/docs/API_PS_columns.html",
+            )
+        return Reference("NASA Exoplanet Archive", None)
+
+    def stellar_transform(row: dict[str, Any], label: str) -> str | None:
+        if not row.get("_from_pscomppars"):
+            return None
+        return f"Complemento explícito desde pscomppars; la solución predeterminada ps no informa {label}"
+
+    def stellar_numeric(field: str, unit: str, label: str) -> dict[str, Any]:
+        row = stellar_rows[field]
+        value = row.get(field)
+        return attribute(
+            value, unit, "reported" if value is not None else "absent", stellar_reference(row),
+            errors=uncertainty(row, field), transform=stellar_transform(row, label),
+        )
+
+    def stellar_text(field: str, label: str) -> dict[str, Any]:
+        row = stellar_rows[field]
+        value = row.get(field)
+        return text_attribute(
+            value, "reported" if value else "absent", stellar_reference(row),
+            transform=stellar_transform(row, label),
+        )
+
+    temperature_row = stellar_rows["st_teff"]
+    spectral_row = stellar_rows["st_spectype"]
+    color_source_row = temperature_row if temperature_row.get("st_teff") is not None else spectral_row
+    visual_color = stellar_visual_color(
+        temperature_row.get("st_teff"), spectral_type, stellar_reference(color_source_row)
+    )
+    source_transform = stellar_transform(
+        color_source_row,
+        "temperatura efectiva" if temperature_row.get("st_teff") is not None else "tipo espectral",
+    )
+    if source_transform and visual_color["transform"]:
+        visual_color["transform"] = f"{visual_color['transform']}; {source_transform}"
     ra_row = first_row_with_value(rows, "ra")
     dec_row = first_row_with_value(rows, "dec")
     distance_row = first_row_with_value(rows, "sy_dist")
@@ -272,7 +433,7 @@ def build_system(
     )
     planets = [build_planet(row, index) for index, row in enumerate(rows)]
     return {
-        "schemaVersion": "0.1.0",
+        "schemaVersion": "0.2.0",
         "id": slugify(hostname),
         "name": hostname,
         "retrievedAt": retrieved_at,
@@ -314,27 +475,31 @@ def build_system(
         "star": {
             "name": hostname,
             "attributes": {
-                "radiusSolar": attribute(
-                    radius_row.get("st_rad"),
-                    "R☉",
-                    "reported" if radius_row.get("st_rad") is not None else "absent",
-                    reference_from_html(radius_row.get("pl_refname")),
-                    errors=uncertainty(radius_row, "st_rad"),
+                "spectralType": stellar_text("st_spectype", "tipo espectral"),
+                "luminosityClass": text_attribute(
+                    derived_luminosity_class,
+                    "derived" if derived_luminosity_class else "absent",
+                    stellar_reference(spectral_row),
+                    transform="; ".join(filter(None, (
+                        luminosity_class_transform,
+                        stellar_transform(spectral_row, "tipo espectral"),
+                    ))) or None,
                 ),
-                "massSolar": attribute(
-                    mass_row.get("st_mass"),
-                    "M☉",
-                    "reported" if mass_row.get("st_mass") is not None else "absent",
-                    reference_from_html(mass_row.get("pl_refname")),
-                    errors=uncertainty(mass_row, "st_mass"),
-                ),
-                "temperatureK": attribute(
-                    temperature_row.get("st_teff"),
-                    "K",
-                    "reported" if temperature_row.get("st_teff") is not None else "absent",
-                    reference_from_html(temperature_row.get("pl_refname")),
-                    errors=uncertainty(temperature_row, "st_teff"),
-                ),
+                "radiusSolar": stellar_numeric("st_rad", "R☉", "radio estelar"),
+                "massSolar": stellar_numeric("st_mass", "M☉", "masa estelar"),
+                "temperatureK": stellar_numeric("st_teff", "K", "temperatura efectiva"),
+                "luminosityLogSolar": stellar_numeric("st_lum", "log10(L☉)", "luminosidad"),
+                "surfaceGravityLogCgs": stellar_numeric("st_logg", "log10(cm/s²)", "gravedad superficial"),
+                "ageGyr": stellar_numeric("st_age", "Ga", "edad estelar"),
+                "densityGcm3": stellar_numeric("st_dens", "g/cm³", "densidad estelar"),
+                "metallicityDex": stellar_numeric("st_met", "dex", "metalicidad"),
+                "metallicityRatio": stellar_text("st_metratio", "razón de metalicidad"),
+                "rotationalVelocityKms": stellar_numeric("st_vsin", "km/s", "velocidad de rotación proyectada"),
+                "rotationPeriodDays": stellar_numeric("st_rotp", "días", "período de rotación"),
+                "radialVelocityKms": stellar_numeric("st_radv", "km/s", "velocidad radial sistémica"),
+            },
+            "visual": {
+                "colorHex": visual_color,
             },
         },
         "planets": planets,
@@ -389,11 +554,20 @@ def fetch_rows(hosts: list[str]) -> tuple[list[dict[str, Any]], str, dict[str, d
     )
     rows = fetch_json(query)
     supplement_query = (
-        "select distinct hostname,sy_dist,sy_disterr1,sy_disterr2 from pscomppars "
+        f"select {','.join(SUPPLEMENT_COLUMNS)} from pscomppars "
         f"where hostname in ({quoted_hosts})"
     )
     supplement_rows = fetch_json(supplement_query)
-    supplements = {row["hostname"]: row for row in supplement_rows}
+    supplements: dict[str, dict[str, Any]] = {}
+    for row in supplement_rows:
+        host = row["hostname"]
+        if host not in supplements:
+            supplements[host] = row
+            continue
+        current = supplements[host]
+        for key, value in row.items():
+            if current.get(key) is None and value is not None:
+                current[key] = value
     return rows, query, supplements
 
 
@@ -548,7 +722,7 @@ def write_outputs(hosts: list[str], output: Path, fetched: dict[str, FetchedHost
     write_csv(
         output / "raw" / "nasa-pscomppars-supplement.csv",
         list(supplements.values()),
-        ["hostname", "sy_dist", "sy_disterr1", "sy_disterr2"],
+        SUPPLEMENT_COLUMNS,
     )
     grouped: dict[str, list[dict[str, Any]]] = {host: [] for host in hosts}
     for row in rows:
@@ -575,6 +749,8 @@ def write_outputs(hosts: list[str], output: Path, fetched: dict[str, FetchedHost
                 "distancePc": distance,
                 "rightAscensionDeg": system["coordinates"]["rightAscensionDeg"]["value"],
                 "declinationDeg": system["coordinates"]["declinationDeg"]["value"],
+                "starColorHex": system["star"]["visual"]["colorHex"]["value"],
+                "starColorStatus": system["star"]["visual"]["colorHex"]["status"],
                 "completeness": completeness(system),
                 "path": f"/data/systems/{system['id']}.json",
             }
@@ -582,7 +758,7 @@ def write_outputs(hosts: list[str], output: Path, fetched: dict[str, FetchedHost
         print(f"Generado {system_path} ({len(system['planets'])} planetas)")
 
     catalog = {
-        "schemaVersion": "0.1.0",
+        "schemaVersion": "0.2.0",
         "retrievedAt": retrieved_at,
         "profile": "prototipo-espacial",
         "systems": index_entries,
