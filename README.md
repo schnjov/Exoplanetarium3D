@@ -42,6 +42,12 @@ escena tridimensional trazable.
   distancia al Sol, comprimida logarítmicamente para la visualización.
 - Los sistemas del mapa son puntos luminosos simples teñidos con el mismo color
   visual trazable que usa su esfera; sin cruces ni destellos direccionales.
+- Los sistemas pueden marcarse como destacados desde el catálogo o el resumen
+  activo. «Solo destacados» filtra conjuntamente lista y mapa; la selección se
+  conserva localmente en el navegador mediante `localStorage`.
+- El mapa ofrece también el control «Solo destacados». Cantidad solicitada,
+  nombres, conexiones, zoom y orientación se conservan al entrar a un sistema
+  y volver al mapa; no se guardan entre recargas del navegador.
 - El origen solar se distingue mediante un disco volumétrico cálido, corona,
   rayos y halo propios; es una referencia visual y no un sistema seleccionable.
 - Interruptor «Mostrar nombres» en el mapa; las etiquetas visibles evitan
@@ -193,8 +199,16 @@ equivocado.
 - Si falta la excentricidad, se asume cero y se muestra una órbita circular.
 - La fase inicial es determinista, pero asumida: no representa la posición
   observada del planeta en una fecha específica.
-- El material de color es genérico por categoría, sin texturas. Los pintados por
-  temperatura y densidad corresponden al siguiente incremento.
+- La rotación axial planetaria es decorativa y mantiene 0,18 rad/s de tiempo
+  real; el exponente y la pausa orbital no la aceleran ni la detienen.
+- Seleccionar una estrella en el mapa abre directamente la vista del sistema,
+  sin animación intermedia de marcador o cámara.
+- Los planetas usan un patrón procedural orgánico compartido y una paleta
+  monocromática neutral por categoría: tierra para rocosos, azul verdoso para
+  sub-Neptunos, ocre para gigantes gaseosos y gris azulado para desconocidos.
+  El patrón y la paleta están separados para permitir futuros pintados temáticos.
+  No representan superficies observadas ni composición medida.
+- Los pintados por temperatura y densidad corresponden a incrementos separados.
 
 ## Próximo incremento propuesto
 

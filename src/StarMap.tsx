@@ -1,11 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, type CSSProperties } from 'react';
 import * as THREE from 'three';
-import type { CatalogEntry, MapNavigationContext } from './types';
+import type { CatalogEntry, StarMapViewState } from './types';
 import { createCosmicCloud } from './cosmicCloud';
 import { createCosmicParticles } from './cosmicParticles';
 
 const radians = Math.PI / 180;
-const home = { yaw: -0.42, pitch: 0.46 };
 const initialZoom = 1.2;
 const clampZoom = (value: number) => Math.max(0.5, Math.min(4, value));
 
@@ -38,23 +37,22 @@ interface StarMapProps {
   systems: CatalogEntry[];
   activeId?: string;
   backgroundStrength: number;
-  onOpen: (entry: CatalogEntry, view: MapNavigationContext) => void;
+  view: StarMapViewState;
+  onViewChange: (update: (current: StarMapViewState) => StarMapViewState) => void;
+  favoritesOnly: boolean;
+  favoriteCount: number;
+  onFavoritesOnlyChange: (enabled: boolean) => void;
+  onOpen: (entry: CatalogEntry) => void;
   onBack: () => void;
 }
 
-export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack }: StarMapProps) {
-  const [angle, setAngle] = useState(home);
-  const [zoom, setZoom] = useState(initialZoom);
-  const [showNames, setShowNames] = useState(true);
-  const [showConnections, setShowConnections] = useState(true);
-  const [openingId, setOpeningId] = useState<string | null>(null);
-  const [systemLimit, setSystemLimit] = useState(100);
+export function StarMap({ systems, activeId, backgroundStrength, view, onViewChange, favoritesOnly, favoriteCount, onFavoritesOnlyChange, onOpen, onBack }: StarMapProps) {
+  const { angle, zoom, showNames, showConnections, systemLimit } = view;
   const fieldRef = useRef<HTMLDivElement>(null);
   const cosmicRef = useRef<HTMLDivElement>(null);
   const fpsRef = useRef<HTMLOutputElement>(null);
   const cosmicView = useRef({ angle, zoom, backgroundStrength });
   const drag = useRef<{ x: number; y: number; id: number } | null>(null);
-  const openingTimer = useRef<number | null>(null);
   const available = systems.map((entry) => ({ entry, position: stellarPosition(entry) }))
     .filter((item) => item.position !== null);
   const limits = Array.from({ length: Math.floor(available.length / 100) }, (_, index) => (index + 1) * 100);
@@ -77,23 +75,14 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
       const pixels = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? field.clientHeight : 1);
-      setZoom(value => clampZoom(value * Math.exp(-Math.max(-200, Math.min(200, pixels)) * 0.002)));
+      onViewChange(current => ({
+        ...current,
+        zoom: clampZoom(current.zoom * Math.exp(-Math.max(-200, Math.min(200, pixels)) * 0.002)),
+      }));
     };
     field.addEventListener('wheel', onWheel, { passive: false });
     return () => field.removeEventListener('wheel', onWheel);
-  }, []);
-
-  useEffect(() => () => {
-    if (openingTimer.current !== null) window.clearTimeout(openingTimer.current);
-  }, []);
-
-  const beginOpen = (entry: CatalogEntry) => {
-    if (openingId) return;
-    setOpeningId(entry.id);
-    openingTimer.current = window.setTimeout(() => {
-      onOpen(entry, { yaw: angle.yaw, pitch: angle.pitch, zoom });
-    }, 650);
-  };
+  }, [onViewChange]);
 
   useLayoutEffect(() => {
     cosmicView.current = { angle, zoom, backgroundStrength };
@@ -205,21 +194,41 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
     return `${p.x},${p.y}`;
   }).join(' '));
   return (
-    <section className={`star-map${openingId ? ' is-opening' : ''}`} aria-label="Mapa estelar de sistemas" aria-busy={openingId !== null}>
+    <section className="star-map" aria-label="Mapa estelar de sistemas">
       <div className="star-map-header">
         <div><span className="eyebrow">CATÁLOGO ESPACIAL</span><h2>Mapa estelar</h2></div>
         <label className="map-system-limit">Sistemas
-          <select value={visibleLimit} disabled={available.length === 0} onChange={event => setSystemLimit(Number(event.currentTarget.value))}>
+          <select value={visibleLimit} disabled={available.length === 0}
+            onChange={event => {
+              const systemLimit = Number(event.currentTarget.value);
+              onViewChange(current => ({ ...current, systemLimit }));
+            }}>
             {available.length === 0 && <option value={0}>0</option>}
             {limits.map(limit => <option key={limit} value={limit}>{limit.toLocaleString('es-CL')}{limit === available.length ? ' (todos)' : ''}</option>)}
           </select>
         </label>
-        <label className="map-names-toggle"><input type="checkbox" role="switch" checked={showNames} onChange={event => setShowNames(event.currentTarget.checked)} />Mostrar nombres</label>
-        <label className="map-connections-toggle"><input type="checkbox" role="switch" checked={showConnections} onChange={event => setShowConnections(event.currentTarget.checked)} />Mostrar conexiones</label>
+        <label className="map-names-toggle"><input type="checkbox" role="switch" checked={showNames}
+          onChange={event => {
+            const showNames = event.currentTarget.checked;
+            onViewChange(current => ({ ...current, showNames }));
+          }} />Mostrar nombres</label>
+        <label className="map-connections-toggle"><input type="checkbox" role="switch" checked={showConnections}
+          onChange={event => {
+            const showConnections = event.currentTarget.checked;
+            onViewChange(current => ({ ...current, showConnections }));
+          }} />Mostrar conexiones</label>
+        <label className="map-favorites-toggle"><input type="checkbox" role="switch" checked={favoritesOnly}
+          onChange={event => onFavoritesOnlyChange(event.currentTarget.checked)} />Solo destacados <span>{favoriteCount.toLocaleString('es-CL')}</span></label>
         <div className="map-zoom-control" role="group" aria-label="Zoom del mapa">
-          <button type="button" title="Alejar" aria-label="Alejar" disabled={zoom <= 0.5} onClick={() => setZoom(value => clampZoom(value / 1.2))}>-</button>
-          <input type="range" aria-label="Zoom del mapa" aria-valuetext={`${Math.round(zoom * 100)}%`} min="0.5" max="4" step="0.01" value={zoom} onChange={event => setZoom(Number(event.currentTarget.value))} />
-          <button type="button" title="Acercar" aria-label="Acercar" disabled={zoom >= 4} onClick={() => setZoom(value => clampZoom(value * 1.2))}>+</button>
+          <button type="button" title="Alejar" aria-label="Alejar" disabled={zoom <= 0.5}
+            onClick={() => onViewChange(current => ({ ...current, zoom: clampZoom(current.zoom / 1.2) }))}>-</button>
+          <input type="range" aria-label="Zoom del mapa" aria-valuetext={`${Math.round(zoom * 100)}%`} min="0.5" max="4" step="0.01" value={zoom}
+            onChange={event => {
+              const zoom = Number(event.currentTarget.value);
+              onViewChange(current => ({ ...current, zoom }));
+            }} />
+          <button type="button" title="Acercar" aria-label="Acercar" disabled={zoom >= 4}
+            onClick={() => onViewChange(current => ({ ...current, zoom: clampZoom(current.zoom * 1.2) }))}>+</button>
           <output>{Math.round(zoom * 100)}%</output>
         </div>
         <button type="button" className="space-button" onClick={onBack}>Volver al sistema</button>
@@ -228,7 +237,7 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
         className="star-map-field"
         ref={fieldRef}
         onPointerDown={(event) => {
-          if (openingId || !event.isPrimary || event.button !== 0 || (event.target as Element).closest('button')) return;
+          if (!event.isPrimary || event.button !== 0 || (event.target as Element).closest('button')) return;
           drag.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
@@ -238,7 +247,13 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
           const dx = event.clientX - previous.x;
           const dy = event.clientY - previous.y;
           drag.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
-          setAngle((value) => ({ yaw: value.yaw + dx * 0.009, pitch: Math.max(-1.45, Math.min(1.45, value.pitch + dy * 0.009)) }));
+          onViewChange(current => ({
+            ...current,
+            angle: {
+              yaw: current.angle.yaw + dx * 0.009,
+              pitch: Math.max(-1.45, Math.min(1.45, current.angle.pitch + dy * 0.009)),
+            },
+          }));
         }}
         onLostPointerCapture={() => { drag.current = null; }}
       >
@@ -253,25 +268,23 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
           <span>Sol<small>REFERENCIA · ORIGEN</small></span>
         </div>
         {points.map(({ entry, x, y }, index) => {
-          const opening = entry.id === openingId;
           const twinkle = markerTwinkle(entry.id);
           return (
           <button
             type="button"
-            className={`star-marker${entry.id === activeId ? ' active' : ''}${opening ? ' opening' : ''}`}
+            className={`star-marker${entry.id === activeId ? ' active' : ''}`}
             key={entry.id}
             style={{
-              left: `${opening ? 50 : x}%`,
-              top: `${opening ? 52 : y}%`,
-              zIndex: opening ? 20000 : 10 + points.length - index,
+              left: `${x}%`,
+              top: `${y}%`,
+              zIndex: 10 + points.length - index,
               '--star-color': entry.starColorHex,
               '--twinkle-duration': twinkle.duration,
               '--twinkle-delay': twinkle.delay,
             } as CSSProperties}
             aria-label={`Abrir ${entry.name}, estrella`}
             title={`${entry.name} · Estrella`}
-            disabled={openingId !== null}
-            onClick={() => beginOpen(entry)}
+            onClick={() => onOpen(entry)}
           >
             <i aria-hidden="true" /><span>{entry.name}<small>ESTRELLA · {entry.distancePc?.toLocaleString('es-CL', { maximumFractionDigits: 1 })} pc</small></span>
           </button>
@@ -283,7 +296,11 @@ export function StarMap({ systems, activeId, backgroundStrength, onOpen, onBack 
           <br />{points.length.toLocaleString('es-CL')} de {available.length.toLocaleString('es-CL')} sistemas con coordenadas.
           {available.length < systems.length && <><br />Los sistemas sin coordenadas completas siguen disponibles en la lista.</>}
         </p>
-        <button type="button" className="space-button" onClick={() => { setAngle(home); setZoom(initialZoom); }}>Restablecer vista</button>
+        <button type="button" className="space-button" onClick={() => onViewChange(current => ({
+          ...current,
+          angle: { yaw: -0.42, pitch: 0.46 },
+          zoom: initialZoom,
+        }))}>Restablecer vista</button>
       </div>
     </section>
   );

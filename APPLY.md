@@ -6,6 +6,20 @@ Estados activos: **proposed** (por aprobar), **ready** (ejecutable), **in-progre
 
 ## Cola activa
 
+### MAP-010 — Estado persistente durante la navegación del mapa
+
+- **Origen:** solicitud explícita del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** MAP-005, MAP-007 y MAP-009 implementados.
+- **Requisito:** conservar las elecciones del mapa al entrar a un sistema y volver, y permitir alternar el filtro de destacados desde el propio mapa.
+- **Aceptación:** cantidad solicitada, nombres, conexiones, zoom y orientación pertenecen a `App`, no al ciclo de montaje de `StarMap`. Entrar a cualquier sistema y volver restaura exactamente esas elecciones. «Restablecer vista» cambia solo orientación y zoom. «Solo destacados» aparece tanto en catálogo como en mapa y ambos controles comparten el mismo estado; filtrar temporalmente a menos sistemas no reduce permanentemente la cantidad solicitada. El sistema activo no cambia ni se desmarca al filtrar.
+- **Evidencia prevista:** typecheck/build y navegador configurando todos los controles, entrada/retorno con sistema actual y distinto, filtro destacado vacío/no vacío, restauración de cantidad y móvil.
+
+### MAP-009 — Sistemas destacados persistentes
+
+- **Origen:** solicitud del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.
+- **Requisito:** permitir destacar sistemas y filtrar catálogo/mapa por destacados, manteniendo la elección localmente entre sesiones.
+- **Aceptación:** cada tarjeta y el resumen activo permiten alternar destacado con botón accesible independiente de la apertura. Los IDs se guardan en `localStorage` bajo una clave versionada y se restauran tolerando contenido inválido o almacenamiento no disponible. «Solo destacados» filtra lista y mapa sin borrar favoritos ni cambiar por sí mismo el sistema activo. Un estado vacío es explícito y permite desactivar el filtro. No cambia catálogo versionado ni contrato NASA.
+- **Evidencia prevista:** typecheck/build y navegador para marcar/desmarcar, recargar, filtro vacío/no vacío, apertura desde lista/mapa, almacenamiento inválido/bloqueado y móvil.
+
 ### MAP-008 — Puntos estelares con color trazable
 
 - **Origen:** corrección explícita del usuario sobre NAV-001, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** DAT-005.
@@ -13,12 +27,12 @@ Estados activos: **proposed** (por aprobar), **ready** (ejecutable), **in-progre
 - **Aceptación:** el índice incorpora color visual y estado derivados del detalle sin perder procedencia; generador, TypeScript, catálogo existente, fixtures y validador coinciden. Cada marcador se lee como una fuente puntual intensa: núcleo nítido de 2 px, borde del color exacto y un único resplandor compacto, sin cruces ni mancha difusa. Un destello asincrónico alterna un máximo blanco con una fase tenue donde domina el color; duración/desfase son deterministas y se desactiva con movimiento reducido. Hover, foco, selección, nombres, solapamientos y contraste con el Sol continúan funcionando.
 - **Evidencia prevista:** pruebas offline del generador, validación de 4.659 sistemas, typecheck/build y navegador comparando al menos estrellas fría/caliente/neutra entre punto y esfera.
 
-### NAV-002 — Zoom WebGL real y transformación punto–sistema
+### NAV-003 — Entrada directa desde el mapa
 
-- **Origen:** corrección explícita del usuario, 2026-11-12; reemplaza NAV-001. **Prioridad:** P1. **Estado:** ready. **Depende de:** MAP-008, VIS-011 y PERF-001.
-- **Requisito:** mapa y sistema deben compartir una cámara/escena WebGL real. Seleccionar un punto desplaza físicamente la cámara hacia sus coordenadas; al cruzar umbrales, el mismo objeto cambia de punto a esfera y luego activa planetas/órbitas. Las estrellas vecinas permanecen en la escena.
-- **Aceptación:** no hay desmontaje ni cambio de renderer al entrar; posición, orientación y fondo son continuos. El color se conserva punto→esfera. LOD lejano usa puntos, LOD estelar crea solo la esfera seleccionada y LOD planetario crea planetas/órbitas únicamente dentro del umbral, liberándolos al alejarse. Etiquetas/hit areas siguen la proyección WebGL. Volver aleja la misma cámara. Instrumentar objetos, draw calls, memoria y FPS en ambos sentidos.
-- **Evidencia prevista:** decisión de escalas/umbrales, migración del mapa DOM a proyección sobre una escena persistente, pruebas unitarias de LOD, build y navegador/GPU con entrada/salida, cambio/cancelación de destino, vecinos, selección planetaria, etapas y limpieza.
+- **Origen:** corrección explícita del usuario, 2026-11-12; cancela NAV-002. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.
+- **Requisito:** al seleccionar una estrella, abandonar inmediatamente el mapa y abrir la vista normal del sistema sin centrar/ampliar el marcador ni animar la cámara de sistema.
+- **Aceptación:** el clic actualiza el sistema activo y oculta el mapa en la misma interacción. Si debe cargar JSON, aparece el estado de carga sobre la vista; al terminar se muestra la cámara inicial normal con estrella, planetas y órbitas ya creados. No existe temporizador de entrada, estado CSS `opening`, escala estelar transitoria ni bloqueo temporal de controles. Abrir el sistema actual también es inmediato. Errores de carga siguen siendo visibles.
+- **Evidencia prevista:** typecheck/build y navegador seleccionando sistema actual, sistema no cargado, clics sucesivos y retorno al mapa; comprobar tiempo de respuesta, estado de carga, consola y limpieza.
 
 ### MAP-006 — Geometría distintiva del Sol
 
@@ -54,6 +68,13 @@ Estados activos: **proposed** (por aprobar), **ready** (ejecutable), **in-progre
 - **Requisito:** sustituir los multiplicadores discretos bajos por una escala elegida como potencia de diez, con exponentes enteros consecutivos y pausa independiente.
 - **Aceptación:** el usuario puede elegir cualquier exponente entero entre 0 y 8, equivalente a multiplicadores desde 1× hasta 100.000.000×. Cambiar exponente no reinicia reloj, selección, cámara ni trazas; Pausa conserva el exponente elegido y Reanudar recupera exactamente su multiplicador. La UI explica el exponente y el valor resultante. El máximo se limita a 10⁸× para reducir vueltas subfotograma y pérdida de lectura que produciría 10¹⁰× en períodos cortos.
 - **Evidencia prevista:** typecheck/build, comprobación numérica de los nueve exponentes y navegador con cambio de escala, pausa/reanudación, cámara enfocada y trazas.
+
+### ORB-005 — Rotación axial independiente de la escala temporal
+
+- **Origen:** corrección explícita del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** ORB-004.
+- **Requisito:** la rotación visual de cada planeta no debe acelerarse al cambiar el exponente temporal.
+- **Aceptación:** en Sistema, las mallas planetarias rotan a una velocidad visual fija de 0,18 rad/s basada en tiempo real. 10⁰× y 10⁸× producen el mismo giro axial durante el mismo intervalo; pausar detiene la traslación orbital pero no cambia ni detiene esa rotación visual. Cambiar exponente, selección, foco o modo de órbita no reinicia el ángulo dentro de la escena existente. No se presenta como período de rotación observado.
+- **Evidencia prevista:** typecheck/build, comprobación numérica a 10⁰×/10⁴×/10⁸×/pausa y navegador con planeta enfocado y textura visible.
 
 ### ORB-003 — Períodos físicos y multiplicadores temporales
 
@@ -133,9 +154,10 @@ Estados activos: **proposed** (por aprobar), **ready** (ejecutable), **in-progre
 
 ### VIS-003 — Texturas genéricas por clase visual
 
-- **Origen:** idea del usuario. **Prioridad:** P2. **Estado:** proposed. **Depende de:** alcance ENT-001.
-- **Tareas:** elegir recursos procedurales o licenciados; conservar alternativa plana; separar textura decorativa de pintado temático.
-- **Aceptación:** cada recurso tiene origen y licencia registrados y se carga localmente. No se presenta como composición observada. Pintado por elementos fuera de alcance salvo datos espectroscópicos y aprobación.
+- **Origen:** solicitud explícita del usuario, 2026-11-12. **Prioridad:** P1. **Estado:** in-progress. **Depende de:** nada.
+- **Requisito:** aplicar una textura procedural orgánica común con una paleta monocromática neutral diferente para rocosos, sub-Neptunos, gigantes gaseosos y cuerpos de clase desconocida. La referencia visual es [colordodge/ProceduralPlanet](https://github.com/colordodge/ProceduralPlanet), simplificada a un solo mapa; no copiar su pipeline de altura, humedad, normales o biomas.
+- **Aceptación:** las texturas son procedurales/locales, reutilizadas por categoría y visibles en Apariencia/Sistema; Geometría conserva wireframe. Las cuatro clases comparten el mismo lenguaje de manchas continuas y detalle multiescala, sin bandas, tormentas ni cráteres semánticos. Cada paleta mantiene una familia de matiz reconocible y queda separada del patrón para futuros pintados por composición, temperatura o densidad. No se presentan como composición observada. Selección, escala, picking y reloj no cambian; todas las texturas se liberan al desmontar y no se crean por planeta.
+- **Evidencia prevista:** typecheck/build, revisión WebGL de las cuatro clases y comparación FPS/memoria; comprobar entrada directa, escala relativa, foco, cambio de etapa/sistema y limpieza.
 
 ### DAT-002 — Selección automática por límite de sistemas
 

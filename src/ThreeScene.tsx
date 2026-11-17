@@ -1,10 +1,11 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import type { CatalogEntry, ExoplanetSystem, OrbitDisplayMode, Planet, SystemEntryTransition } from './types';
+import type { CatalogEntry, ExoplanetSystem, OrbitDisplayMode, Planet } from './types';
 import { createStellarFlare, createStellarSurface } from './stellarFlare';
 import { createCosmicParticles } from './cosmicParticles';
 import { createCosmicCloud } from './cosmicCloud';
+import { createPlanetTextureSet, type PlanetTextureCategory, type PlanetTextureSet } from './planetTextures';
 
 interface ThreeSceneProps {
   system: ExoplanetSystem;
@@ -15,13 +16,11 @@ interface ThreeSceneProps {
   backgroundStrength: number;
   catalogSystems: CatalogEntry[];
   activeCatalogId: string;
-  entryTransition: SystemEntryTransition | null;
   sceneRevision: number;
   bodyScaleMode: 'legible' | 'relative';
   orbitDisplayMode: OrbitDisplayMode;
   onSelectPlanet: (planetId: string) => void;
   onSelectStar: () => void;
-  onEntryTransitionComplete: () => void;
   active: boolean;
 }
 
@@ -43,13 +42,6 @@ interface OrbitState {
   legibleRadius: number;
   relativeRadius: number;
 }
-
-const CATEGORY_COLORS: Record<string, number> = {
-  rocoso: 0xc96f45,
-  'sub-neptuno': 0x57bed9,
-  'gigante-gaseoso': 0xd3a665,
-  desconocido: 0x8294a9,
-};
 
 const SOLAR_RADIUS_IN_EARTH_RADII = 109.076;
 const TRAIL_CAPACITY = 80;
@@ -236,7 +228,7 @@ function updateTrail(orbit: OrbitState, elapsed: number) {
   orbit.trail.visible = orbit.trailSamples.length > 1;
 }
 
-function planetMaterial(planet: Planet, stage: number, selected: boolean) {
+function planetMaterial(planet: Planet, stage: number, selected: boolean, textures: PlanetTextureSet | null) {
   if (stage === 2) {
     return new THREE.MeshBasicMaterial({
       color: selected ? 0x61dcff : 0x7c91a8,
@@ -245,26 +237,30 @@ function planetMaterial(planet: Planet, stage: number, selected: boolean) {
       opacity: selected ? 1 : 0.72,
     });
   }
-  const color = CATEGORY_COLORS[planet.visualCategory.value] ?? CATEGORY_COLORS.desconocido;
+  const category = (planet.visualCategory.value in (textures ?? {})
+    ? planet.visualCategory.value
+    : 'desconocido') as PlanetTextureCategory;
+  const roughness = category === 'rocoso' ? 0.92 : category === 'gigante-gaseoso' ? 0.66 : category === 'sub-neptuno' ? 0.58 : 0.82;
   return new THREE.MeshStandardMaterial({
-    color,
-    roughness: 0.78,
-    metalness: 0.04,
+    color: 0xffffff,
+    map: textures?.[category] ?? null,
+    roughness,
+    metalness: 0.02,
     emissive: selected ? 0x174d5e : 0x000000,
     emissiveIntensity: selected ? 1.15 : 0,
   });
 }
 
-export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, catalogSystems, activeCatalogId, entryTransition, sceneRevision, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, onEntryTransitionComplete, active }: ThreeSceneProps) {
+export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, catalogSystems, activeCatalogId, sceneRevision, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, active }: ThreeSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
   const fpsRef = useRef<HTMLOutputElement>(null);
-  const interaction = useRef({ selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, onEntryTransitionComplete, active });
+  const interaction = useRef({ selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, active });
   const timeline = useRef({ system, elapsed: 0 });
 
   useLayoutEffect(() => {
-    interaction.current = { selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, onEntryTransitionComplete, active };
-  }, [selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, onEntryTransitionComplete, active]);
+    interaction.current = { selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, active };
+  }, [selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode, onSelectPlanet, onSelectStar, active]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -277,17 +273,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
     scene.fog = new THREE.FogExp2(0x020713, 0.012);
 
     const camera = new THREE.PerspectiveCamera(46, 1, 0.1, 500);
-    const transitionActive = entryTransition?.entryId === system.id;
-    const entryStartDistance = transitionActive
-      ? THREE.MathUtils.clamp(145 / Math.sqrt(entryTransition.zoom / 1.2), 95, 180)
-      : 37;
-    if (transitionActive) {
-      camera.position.setFromSphericalCoords(
-        entryStartDistance,
-        THREE.MathUtils.clamp(Math.PI / 2 - entryTransition.pitch * 0.7, 0.18, Math.PI - 0.18),
-        entryTransition.yaw,
-      );
-    } else camera.position.set(0, 22, 30);
+    camera.position.set(0, 22, 30);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -302,8 +288,8 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
     controls.enablePan = false;
     controls.dampingFactor = 0.055;
     controls.minDistance = 1;
-    controls.maxDistance = transitionActive ? entryStartDistance + 10 : 75;
-    controls.enabled = !transitionActive;
+    controls.maxDistance = 75;
+    controls.enabled = true;
     controls.target.set(0, 0, 0);
 
     const ambient = new THREE.AmbientLight(0x5c7fa5, stage >= 3 ? 0.42 : 0.2);
@@ -330,12 +316,13 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
     const flare = stage >= 3 ? createStellarFlare(stellarColor) : null;
     const stellarSurface = stage >= 3 ? createStellarSurface(stellarColor, stringSeed(system.id) * 97) : null;
     if (flare) {
-      flare.scale.setScalar(stellarVisualRadius / 1.45 * (transitionActive ? 8 : 1));
+      flare.scale.setScalar(stellarVisualRadius / 1.45);
       scene.add(flare);
     }
 
     let starMesh: THREE.Mesh | null = null;
     let planetarySystemBuilt = false;
+    let planetTextures: PlanetTextureSet | null = null;
     if (stage >= 2) {
       starMesh = new THREE.Mesh(
         new THREE.SphereGeometry(1, 64, 48),
@@ -343,7 +330,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
           ? new THREE.MeshBasicMaterial({ color: stellarColor, wireframe: true, transparent: true, opacity: 0.8 })
           : stellarSurface!,
       );
-      starMesh.scale.setScalar(stellarVisualRadius * (transitionActive ? 8 : 1));
+      starMesh.scale.setScalar(stellarVisualRadius);
       starMesh.userData.bodyName = system.star.name;
       starMesh.userData.bodyType = 'Estrella';
       scene.add(starMesh);
@@ -353,6 +340,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
     const buildPlanetarySystem = () => {
       if (planetarySystemBuilt || stage < 2) return;
       planetarySystemBuilt = true;
+      if (stage >= 3) planetTextures = createPlanetTextureSet(renderer.capabilities.getMaxAnisotropy());
       const scaleOrbit = orbitScale(system.planets);
       system.planets.forEach((planet) => {
         const rawSemiMajor = planet.attributes.semiMajorAu.value;
@@ -378,7 +366,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
           : readableRadius;
         const mesh = new THREE.Mesh(
           new THREE.SphereGeometry(1, 30, 20),
-          planetMaterial(planet, stage, false),
+          planetMaterial(planet, stage, false, planetTextures),
         );
         const initialRadius = bodyScaleMode === 'relative' ? relativeRadius : readableRadius;
         mesh.scale.setScalar(initialRadius);
@@ -431,7 +419,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
         });
       });
     };
-    if (!transitionActive) buildPlanetarySystem();
+    buildPlanetarySystem();
 
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
@@ -499,8 +487,8 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
     let previousFocusedOrbitAngle: number | null = null;
     let followBlend = 1;
     let stellarElapsed = 0;
+    let planetRotationElapsed = 0;
     let trailElapsed = 0;
-    let entryZooming = transitionActive;
     let fpsWindowStart = performance.now();
     let fpsFrameCount = 0;
     let frame = 0;
@@ -513,27 +501,8 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
         return;
       }
       const { selectedPlanetId, focusedPlanetId, playbackRate, backgroundStrength, bodyScaleMode, orbitDisplayMode } = interaction.current;
-      if (entryZooming) {
-        const currentDistance = camera.position.distanceTo(controls.target);
-        const nextDistance = THREE.MathUtils.lerp(currentDistance, 37, 1 - Math.exp(-2.7 * delta));
-        viewOffset.subVectors(camera.position, controls.target).setLength(nextDistance);
-        camera.position.copy(controls.target).add(viewOffset);
-        const entryRatio = THREE.MathUtils.clamp((nextDistance - 37) / (entryStartDistance - 37), 0, 1);
-        const starScale = stellarVisualRadius * (1 + entryRatio * 7);
-        if (starMesh) starMesh.scale.setScalar(starScale);
-        if (flare) flare.scale.setScalar(starScale / 1.45);
-        if (nextDistance <= 70) buildPlanetarySystem();
-        if (Math.abs(nextDistance - 37) < 0.08) {
-          camera.position.sub(controls.target).setLength(37).add(controls.target);
-          if (starMesh) starMesh.scale.setScalar(stellarVisualRadius);
-          if (flare) flare.scale.setScalar(stellarVisualRadius / 1.45);
-          controls.maxDistance = 75;
-          controls.enabled = true;
-          entryZooming = false;
-          interaction.current.onEntryTransitionComplete();
-        }
-      }
       if (stage === 4) timeline.current.elapsed += delta * playbackRate;
+      if (stage === 4) planetRotationElapsed += delta;
       if (stage === 4 && playbackRate > 0) trailElapsed += delta;
       const elapsed = timeline.current.elapsed;
       if (stage >= 3 && (stage !== 4 || playbackRate > 0)) stellarElapsed += delta;
@@ -598,7 +567,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
         orbit.mesh.position.set(x, -Math.sin(orbit.inclination) * z, Math.cos(orbit.inclination) * z);
         orbit.pickMesh.position.copy(orbit.mesh.position);
         if (orbitDisplayMode === 'trail') updateTrail(orbit, trailElapsed);
-        orbit.mesh.rotation.y = elapsed * 0.18;
+        orbit.mesh.rotation.y = planetRotationElapsed * 0.18;
         if (orbit.planetId === focusedPlanetId) {
           desiredTarget.copy(orbit.mesh.position);
           focusedOrbitAngle = angle;
@@ -679,6 +648,7 @@ export function ThreeScene({ system, stage, selectedPlanetId, focusedPlanetId, p
           materials.forEach((material) => material.dispose());
         }
       });
+      if (planetTextures) Object.values(planetTextures).forEach((texture) => texture.dispose());
       renderer.dispose();
       host.removeChild(renderer.domElement);
     };

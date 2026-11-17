@@ -1,15 +1,12 @@
 export type ProvenanceStatus = 'reported' | 'derived' | 'assumed' | 'absent';
 export type OrbitDisplayMode = 'complete' | 'trail' | 'hidden';
 
-export interface MapNavigationContext {
-  yaw: number;
-  pitch: number;
+export interface StarMapViewState {
+  angle: { yaw: number; pitch: number };
   zoom: number;
-}
-
-export interface SystemEntryTransition extends MapNavigationContext {
-  entryId: string;
-  token: number;
+  showNames: boolean;
+  showConnections: boolean;
+  systemLimit: number;
 }
 
 export interface Uncertainty {

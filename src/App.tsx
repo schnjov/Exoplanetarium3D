@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { loadCatalog, loadSystem } from './data';
 import { ThreeScene } from './ThreeScene';
 import { StarMap } from './StarMap';
@@ -7,12 +7,11 @@ import type {
   CatalogIndex,
   ExoplanetSystem,
   OrbitDisplayMode,
-  MapNavigationContext,
   Planet,
   ProvenanceStatus,
   ScientificAttribute,
+  StarMapViewState,
   TextAttribute,
-  SystemEntryTransition,
 } from './types';
 
 const STAGES = [
@@ -21,6 +20,26 @@ const STAGES = [
   { id: 3, label: 'Apariencia', description: 'Materiales genéricos por categoría' },
   { id: 4, label: 'Sistema', description: 'Escena navegable y animada' },
 ];
+
+const FAVORITES_STORAGE_KEY = 'exoplanetarium:favorites:v1';
+const INITIAL_STAR_MAP_VIEW: StarMapViewState = {
+  angle: { yaw: -0.42, pitch: 0.46 },
+  zoom: 1.2,
+  showNames: true,
+  showConnections: true,
+  systemLimit: 100,
+};
+
+function loadFavoriteSystemIds() {
+  if (typeof window === 'undefined') return new Set<string>();
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(FAVORITES_STORAGE_KEY) ?? '[]');
+    if (!Array.isArray(stored)) return new Set<string>();
+    return new Set(stored.filter((value): value is string => typeof value === 'string'));
+  } catch {
+    return new Set<string>();
+  }
+}
 
 const ATTRIBUTE_LABELS: Record<string, string> = {
   radiusEarth: 'Radio planetario',
@@ -89,11 +108,11 @@ function App() {
   const [bodyScaleMode, setBodyScaleMode] = useState<'legible' | 'relative'>('legible');
   const [orbitDisplayMode, setOrbitDisplayMode] = useState<OrbitDisplayMode>('complete');
   const [backgroundStrength, setBackgroundStrength] = useState(0.75);
+  const [favoriteSystemIds, setFavoriteSystemIds] = useState(loadFavoriteSystemIds);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [starMapView, setStarMapView] = useState<StarMapViewState>(INITIAL_STAR_MAP_VIEW);
   const [showMap, setShowMap] = useState(false);
   const [sceneRevision, setSceneRevision] = useState(0);
-  const [systemEntryTransition, setSystemEntryTransition] = useState<SystemEntryTransition | null>(null);
-  const pendingMapTransition = useRef<SystemEntryTransition | null>(null);
-  const transitionToken = useRef(0);
   const [stage, setStage] = useState(4);
   const timeMultiplier = 10 ** timeExponent;
   const playbackRate = playbackPaused ? 0 : timeMultiplier;
@@ -113,6 +132,14 @@ function App() {
   }, []);
 
   useEffect(() => {
+    try {
+      window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favoriteSystemIds].sort()));
+    } catch {
+      // La aplicación sigue funcionando si el navegador bloquea el almacenamiento local.
+    }
+  }, [favoriteSystemIds]);
+
+  useEffect(() => {
     if (!activeEntry) return;
     let current = true;
     setLoading(true);
@@ -123,13 +150,6 @@ function App() {
         setSelectedPlanetId(null);
         setFocusedPlanetId(null);
         setError(null);
-        const pending = pendingMapTransition.current;
-        if (pending?.entryId === nextSystem.id) {
-          pendingMapTransition.current = null;
-          setSystemEntryTransition(pending);
-          setSceneRevision(value => value + 1);
-          setShowMap(false);
-        }
       })
       .catch((cause: unknown) => {
         if (!current) return;
@@ -143,6 +163,10 @@ function App() {
     () => system?.planets.find((planet) => planet.id === selectedPlanetId) ?? null,
     [system, selectedPlanetId],
   );
+  const visibleCatalogSystems = useMemo(
+    () => favoritesOnly ? (catalog?.systems ?? []).filter(entry => favoriteSystemIds.has(entry.id)) : (catalog?.systems ?? []),
+    [catalog, favoriteSystemIds, favoritesOnly],
+  );
   const hasStellarRadius = (system?.star.attributes.radiusSolar.value ?? 0) > 0;
   const effectiveBodyScaleMode = bodyScaleMode === 'relative' && hasStellarRadius ? 'relative' : 'legible';
 
@@ -151,27 +175,20 @@ function App() {
     setFocusedPlanetId(planetId);
   }, []);
   const centerStar = useCallback(() => setFocusedPlanetId(null), []);
+  const toggleFavoriteSystem = useCallback((systemId: string) => {
+    setFavoriteSystemIds(current => {
+      const next = new Set(current);
+      if (next.has(systemId)) next.delete(systemId);
+      else next.add(systemId);
+      return next;
+    });
+  }, []);
   const showSystem = () => { setSelectedPlanetId(null); setFocusedPlanetId(null); };
-  const openSystem = (entry: CatalogEntry, mapView?: MapNavigationContext) => {
-    if (mapView) {
-      const transition = { ...mapView, entryId: entry.id, token: transitionToken.current += 1 };
-      if (system?.id === entry.id) {
-        setSystemEntryTransition(transition);
-        setSceneRevision(value => value + 1);
-        setShowMap(false);
-      } else {
-        pendingMapTransition.current = transition;
-        setActiveEntry(entry);
-      }
-      return;
-    }
-    pendingMapTransition.current = null;
-    setSystemEntryTransition(null);
+  const openSystem = (entry: CatalogEntry) => {
     setActiveEntry(entry);
     setShowMap(false);
   };
   const closeMap = () => {
-    setSystemEntryTransition(null);
     setSceneRevision(value => value + 1);
     setShowMap(false);
   };
@@ -211,24 +228,33 @@ function App() {
           <button className="space-button map-launch" type="button" onClick={() => showMap ? closeMap() : setShowMap(true)}>
             {showMap ? 'Volver al sistema' : 'Abrir mapa estelar'}
           </button>
+          <label className="favorites-filter">
+            <input type="checkbox" role="switch" checked={favoritesOnly} onChange={event => setFavoritesOnly(event.currentTarget.checked)} />
+            Solo destacados <span>{favoriteSystemIds.size.toLocaleString('es-CL')}</span>
+          </label>
         </div>
 
         <div className="system-list">
-          {catalog?.systems.map((entry) => (
-            <button
-              key={entry.id}
-              className={`system-card ${activeEntry?.id === entry.id ? 'active' : ''}`}
-              onClick={() => openSystem(entry)}
-              type="button"
-            >
-              <span className="system-dot" />
-              <span className="system-copy">
-                <strong>{entry.name}</strong>
-                <span>{entry.planetCount} planetas · {entry.distancePc ? `${formatNumber(entry.distancePc)} pc` : 'distancia ausente'}</span>
-              </span>
-              <span className="coverage">{entry.completeness}%</span>
-            </button>
+          {visibleCatalogSystems.map((entry) => (
+            <div key={entry.id} className={`system-card ${activeEntry?.id === entry.id ? 'active' : ''}${favoriteSystemIds.has(entry.id) ? ' favorite' : ''}`}>
+              <button className="system-card-open" onClick={() => openSystem(entry)} type="button">
+                <span className="system-dot" />
+                <span className="system-copy">
+                  <strong>{entry.name}</strong>
+                  <span>{entry.planetCount} planetas · {entry.distancePc ? `${formatNumber(entry.distancePc)} pc` : 'distancia ausente'}</span>
+                </span>
+                <span className="coverage">{entry.completeness}%</span>
+              </button>
+              <button className="favorite-system" type="button"
+                aria-label={favoriteSystemIds.has(entry.id) ? `Quitar ${entry.name} de destacados` : `Destacar ${entry.name}`}
+                aria-pressed={favoriteSystemIds.has(entry.id)}
+                title={favoriteSystemIds.has(entry.id) ? 'Quitar de destacados' : 'Destacar sistema'}
+                onClick={() => toggleFavoriteSystem(entry.id)}>★</button>
+            </div>
           ))}
+          {favoritesOnly && visibleCatalogSystems.length === 0 && (
+            <div className="favorites-empty"><strong>Sin sistemas destacados</strong><span>Desactiva el filtro o marca una estrella.</span></div>
+          )}
         </div>
 
         {system && (
@@ -236,6 +262,11 @@ function App() {
             <span className="eyebrow">SISTEMA ACTIVO</span>
             <strong>{system.name}</strong>
             <span>{system.planets.length} cuerpos renderizables</span>
+            <button className="summary-favorite" type="button"
+              aria-pressed={favoriteSystemIds.has(system.id)}
+              onClick={() => toggleFavoriteSystem(system.id)}>
+              {favoriteSystemIds.has(system.id) ? '★ Destacado' : '☆ Destacar sistema'}
+            </button>
             <div className="summary-grid">
               <div><small>AR</small><b>{formatNumber(system.coordinates.rightAscensionDeg.value ?? 0)}°</b></div>
               <div><small>DEC</small><b>{formatNumber(system.coordinates.declinationDeg.value ?? 0)}°</b></div>
@@ -245,8 +276,10 @@ function App() {
       </aside>
 
       <main className="viewport">
-        {showMap && catalog && <StarMap systems={catalog.systems} activeId={activeEntry?.id} backgroundStrength={backgroundStrength}
-          onOpen={openSystem} onBack={closeMap} />}
+        {showMap && catalog && <StarMap systems={visibleCatalogSystems} activeId={activeEntry?.id} backgroundStrength={backgroundStrength}
+          view={starMapView} onViewChange={setStarMapView}
+          favoritesOnly={favoritesOnly} favoriteCount={favoriteSystemIds.size}
+          onFavoritesOnlyChange={setFavoritesOnly} onOpen={openSystem} onBack={closeMap} />}
         <div className="system-view" hidden={showMap}>
         <div className="stage-selector" role="tablist" aria-label="Etapas de construcción visual">
           {STAGES.map((item) => (
@@ -275,9 +308,7 @@ function App() {
               backgroundStrength={backgroundStrength}
               catalogSystems={catalog?.systems ?? []}
               activeCatalogId={activeEntry?.id ?? system.id}
-              entryTransition={systemEntryTransition}
               sceneRevision={sceneRevision}
-              onEntryTransitionComplete={() => setSystemEntryTransition(null)}
               bodyScaleMode={effectiveBodyScaleMode}
               orbitDisplayMode={orbitDisplayMode}
               onSelectPlanet={handlePlanetSelect}

@@ -115,6 +115,13 @@ Base de esta bitácora: **Exoplanetarium 3D v0.1.2**. Versiones de aplicación y
 - **Verificación automática:** `npm run build` OK, incluido typecheck; bundle JavaScript 815,26 kB y aviso no bloqueante de Vite sobre 500 kB. La comprobación de los exponentes 0–8 produjo exactamente 1×, 10×, 100×, 1.000×, 10.000×, 100.000×, 1.000.000×, 10.000.000× y 100.000.000×. `npm run data:validate` OK con 4.659 sistemas y 6.226 planetas. `git diff --check` OK. No se modificó el catálogo ni se agregaron dependencias.
 - **Límites:** falta ejecutar RF-05, RF-06 y RF-12 en navegador/WebGL, especialmente cámara y trazas con exponentes altos. ORB-004 permanece activo hasta la aceptación visual. No se publicó.
 
+## ORB-005 — Rotación axial desacoplada, pendiente de aceptación visual (2026-11-12)
+
+- **Aplicado:** `src/ThreeScene.tsx` separa `planetRotationElapsed` del reloj orbital. En Sistema acumula segundos reales y aplica una rotación visual fija de 0,18 rad/s a cada malla planetaria. `timeline.current.elapsed` continúa usando `delta × playbackRate` exclusivamente para la posición orbital.
+- **Continuidad:** cambiar entre 10⁰× y 10⁸× o pausar no altera la velocidad axial. La pausa conserva inmóvil la órbita, pero la superficie sigue girando a igual velocidad; selección, foco y modos de órbita no reconstruyen la escena ni reinician ese reloj. La velocidad es decorativa y no usa ni suplanta el período de rotación NASA.
+- **Verificación:** `npm run build` OK, incluido typecheck; 26 módulos y bundle JavaScript de 827,52 kB. En cualquier intervalo de cinco segundos el giro esperado es `5 × 0,18 = 0,9` radianes para todos los exponentes y pausa.
+- **Límites:** falta ejecutar RF-23 en navegador con una textura visible para confirmar percepción y continuidad. ORB-005 permanece activo y no se publicó.
+
 ## PERF-001 — Contador de FPS de escena y mapa, pendiente de aceptación visual (2026-11-12)
 
 - **Aplicado:** `src/ThreeScene.tsx` añade un `output` superpuesto a la escena. El bucle `requestAnimationFrame` existente cuenta fotogramas y, al completar una ventana mínima de 500 ms, muestra `round(frames × 1.000 / milisegundos) FPS`. `src/StarMap.tsx` aplica el mismo cálculo dentro del bucle WebGL que VIS-011 usa para su fondo cósmico. Las escrituras usan referencias; no producen renders React por fotograma ni existe un observador duplicado.
@@ -154,7 +161,15 @@ Base de esta bitácora: **Exoplanetarium 3D v0.1.2**. Versiones de aplicación y
 - **LOD planetario:** en una entrada desde mapa, mallas, proxies, órbitas, trazas y materiales planetarios no se crean al montar. `buildPlanetarySystem` se ejecuta una sola vez al llegar a distancia 70. Entradas directas y reconstrucciones de etapa conservan el comportamiento inmediato anterior.
 - **Vecindario:** se convierten AR/DEC/distancia del catálogo a Cartesianas, se calcula separación respecto del sistema activo y se conservan los 64 vecinos más cercanos con posición comprimida entre 36 y 135 unidades. Se renderizan en un solo `THREE.Points` con color por cobertura y se liberan por el recorrido general.
 - **Verificación:** `npm run build` OK, incluido typecheck; 25 módulos, bundle JavaScript 824,98 kB y aviso no bloqueante de Vite sobre 500 kB. La simulación numérica confirmó umbral y duración. `git diff --check` OK. No se modificaron datos ni dependencias.
-- **Resultado:** el usuario rechazó el cambio de escena coordinado como sustituto de un zoom real. NAV-001 se retira de la cola: NAV-002 exige una cámara y renderer persistentes, transformación del mismo punto en esfera y LOD reversible. La implementación queda como evidencia intermedia, no como aceptación. No se publicó.
+- **Resultado:** el usuario rechazó el cambio de escena coordinado como sustituto de un zoom real. En ese momento NAV-002 propuso una cámara y renderer persistentes, transformación del mismo punto en esfera y LOD reversible; posteriormente también fue cancelado por NAV-003. La implementación queda como evidencia histórica, no como comportamiento vigente ni aceptación. No se publicó.
+
+## NAV-002 descartado / NAV-003 entrada directa, pendiente de aceptación visual (2026-11-12)
+
+- **Decisión:** el usuario descartó tanto la transición simulada de NAV-001 como el zoom WebGL propuesto en NAV-002. NAV-003 establece un cambio directo de vista al seleccionar una estrella.
+- **Aplicado:** `StarMap` elimina `openingId`, el temporizador de 650 ms, el centrado/escala del marcador y su estado ocupado. `App` ya no transporta yaw, pitch, zoom ni transiciones pendientes: activa la entrada y oculta el mapa en el mismo clic. `ThreeScene` elimina la estrella transitoria 8×, la convergencia de cámara, el umbral LOD 70 y el bloqueo de controles; comienza siempre en `(0, 22, 30)` con planetas y órbitas creados. Se retiraron los tipos de transición y las reglas CSS `opening`.
+- **Carga y continuidad:** seleccionar otro sistema muestra inmediatamente la vista cubierta por el indicador existente «Cargando sistema…» hasta resolver su JSON. Seleccionar el sistema actual simplemente cierra el mapa. Las estrellas vecinas continúan renderizadas en la escena del sistema.
+- **Verificación:** `npm run build` OK, incluido typecheck; 26 módulos y bundle JavaScript de 827,52 kB. La búsqueda estática confirma que no quedan referencias a `SystemEntryTransition`, `MapNavigationContext`, `entryZooming`, `openingId` ni estilos `opening`.
+- **Límites:** falta RF-24 en navegador para medir respuesta, carga, clics sucesivos y recursos. NAV-003 permanece activo y no se publicó.
 
 ## MAP-008 — Puntos estelares con color trazable, pendiente de aceptación visual (2026-11-12)
 
@@ -162,7 +177,23 @@ Base de esta bitácora: **Exoplanetarium 3D v0.1.2**. Versiones de aplicación y
 - **Apariencia:** `src/StarMap.tsx` expone el hexadecimal como propiedad CSS. La captura del usuario mostró que el núcleo seguía en 7 px y que la combinación de dos sombras más pseudo-halo producía discos borrosos. La revisión puntual usa núcleo de 2 px, borde cromático de 1 px y resplandor corto. La revisión siguiente agrega destello por ID: en el máximo aumenta blanco/escala; en el mínimo baja opacidad y domina el color. Duraciones 2,4–4,1 s y desfases estables evitan pulsación sincronizada; `prefers-reduced-motion` lo desactiva. La hit area sigue en 38 px.
 - **Trazabilidad:** el punto y `ThreeScene` consumen la misma derivación persistida. Una estrella con temperatura/tipo usa color derivado; si ambos faltan, punto y esfera comparten el neutro asumido. El índice conserva el estado para que la presentación futura pueda explicarlo.
 - **Verificación:** `python3 -m unittest discover -s tests`: 18 pruebas OK, incluyendo igualdad de color/estado en exportaciones simuladas de 1.000 sistemas. `npm run data:validate`: 4.659 sistemas y 6.226 planetas válidos. `npm run build`: OK, incluido typecheck; 25 módulos, bundle JavaScript 825,01 kB y aviso no bloqueante de Vite sobre 500 kB.
-- **Límites:** falta RF-20 en navegador para comparar punto/esfera y contraste. Los marcadores siguen siendo DOM en este ticket; NAV-002 debe convertirlos en el LOD lejano de una escena WebGL persistente. MAP-008 permanece activo y no se publicó.
+- **Límites:** falta RF-20 en navegador para comparar punto/esfera y contraste. Los marcadores siguen siendo DOM; NAV-003 conserva el cambio directo entre mapa y sistema. MAP-008 permanece activo y no se publicó.
+
+## MAP-009 — Sistemas destacados persistentes, pendiente de aceptación visual (2026-11-12)
+
+- **Estado y persistencia:** `src/App.tsx` mantiene un `Set<string>` inicializado desde `exoplanetarium:favorites:v1`. Solo admite arrays de strings; JSON inválido, SSR o excepciones de acceso devuelven conjunto vacío. Cada cambio guarda una lista ordenada dentro de `try/catch`, por lo que bloquear almacenamiento no impide usar la sesión actual.
+- **Interfaz:** cada tarjeta se divide en botón de apertura y botón estrella hermano con `aria-label`/`aria-pressed`, evitando botones anidados. El resumen activo ofrece «Destacar sistema/Destacado». El filtro accesible «Solo destacados» muestra el conteo y, sin elementos, presenta un estado vacío con instrucción para recuperarse. MAP-010 expone después el mismo estado también en el encabezado del mapa.
+- **Alcance del filtro:** `visibleCatalogSystems` filtra conjuntamente lista y `StarMap`; no cambia `activeEntry`, no borra destacados y no limita el catálogo completo que `ThreeScene` usa para estrellas vecinas. Marcar/desmarcar tampoco abre un sistema.
+- **Verificación:** `npm run build` OK, incluido typecheck; 25 módulos, bundle JavaScript 826,80 kB y aviso no bloqueante de Vite sobre 500 kB. No se modificó catálogo, contrato ni dependencias por este ticket.
+- **Límites:** falta RF-21 en navegador para persistencia real, almacenamiento inválido/bloqueado, teclado, mapa y móvil. No sincroniza cambios entre pestañas mediante evento `storage`, fuera del requisito. MAP-009 permanece activo y no se publicó.
+
+## MAP-010 — Preferencias de mapa conservadas, pendiente de aceptación visual (2026-11-12)
+
+- **Estado:** `src/App.tsx` incorpora `starMapView` con orientación, zoom, visibilidad de nombres/conexiones y cantidad solicitada. `src/StarMap.tsx` deja de poseer esos cinco estados y recibe vista/setter controlados, por lo que su desmontaje al abrir un sistema no pierde las elecciones. «Restablecer vista» modifica únicamente ángulo y zoom.
+- **Destacados:** el encabezado del mapa incorpora «Solo destacados» con conteo y comparte `favoritesOnly` con el interruptor del catálogo. `visibleCatalogSystems` sigue alimentando ambas vistas. El selector usa el mínimo entre cantidad solicitada y disponibilidad sin escribir ese mínimo en `starMapView`, preservando la cantidad al quitar el filtro.
+- **Alcance:** las preferencias del mapa sobreviven a la navegación dentro de la sesión React, pero no se añadieron a `localStorage`; solo los IDs destacados persisten entre recargas. No cambian catálogo, sistema activo, vecinos Three.js ni contrato NASA.
+- **Verificación:** `npm run build` OK, incluido typecheck; 26 módulos y bundle JavaScript de 828,19 kB. Vite conserva el aviso no bloqueante de chunk mayor a 500 kB.
+- **Límites:** falta RF-25 en navegador para controles, entrada/retorno, estados vacíos, restauración de cantidad y móvil. MAP-010 permanece activo y no se publicó.
 
 ## VIS-005 — Escala comparativa de cuerpos, pendiente de aceptación visual (2026-11-12)
 
@@ -186,10 +217,18 @@ Base de esta bitácora: **Exoplanetarium 3D v0.1.2**. Versiones de aplicación y
 - **Verificación:** `npm run typecheck` y `npm run build` OK; `python3 scripts/validate_data.py` OK con 4.659 sistemas y 6.226 planetas. Vite conserva el aviso no bloqueante de chunk mayor a 500 kB. No se modificó catálogo ni dependencias.
 - **Límites:** no hay navegador/WebGL disponible para inspeccionar crecimiento, degradado, pausa, continuidad, selección ni consola. ORB-002 permanece activo en APPLY hasta completar RF-12. No se publicó.
 
+## VIS-003 — Texturas procedurales planetarias, pendiente de aceptación visual (2026-11-12)
+
+- **Iteración visual:** el usuario rechazó la primera variante con patrones específicos por clase. Se reemplazó por una versión deliberadamente más simple, inspirada visualmente en [colordodge/ProceduralPlanet](https://github.com/colordodge/ProceduralPlanet): un único FBM de ruido de valor 3D genera manchas orgánicas continuas y detalle multiescala, sin copiar su pipeline de mapas de altura, humedad, normales o biomas.
+- **Aplicado:** `src/planetTextures.ts` genera localmente cuatro mapas RGBA de 256×128 a partir del mismo patrón y semillas distintas. `PLANET_NEUTRAL_PALETTES` mantiene el color separado: tierra para rocosos, azul verdoso para sub-Neptunos, ocre para gigantes gaseosos y gris azulado para desconocidos. Esto deja un punto explícito de sustitución para futuros pintados por composición, temperatura o densidad. `src/ThreeScene.tsx` usa los mapas en Apariencia/Sistema; Geometría conserva wireframe. Son texturas decorativas, no superficies observadas ni inferencias de composición.
+- **Recursos:** se crea una textura por categoría, compartida por todos sus planetas, cuando se construye el sistema planetario. No se crean mapas por planeta. Al desmontar, las cuatro texturas se liberan explícitamente junto con geometrías y materiales. No cambian contrato de datos, dependencias, selección, picking, escalas, cámara, órbitas ni reloj.
+- **Verificación:** `npm run build` OK, incluido typecheck; 26 módulos y bundle JavaScript de 828,97 kB. Una comprobación offline de los mapas confirmó rangos distintos para las cuatro paletas y una diferencia media de borde longitudinal entre 1,02 y 2,42 niveles RGB sobre 255; las cuatro previsualizaciones equirectangulares se inspeccionaron localmente. Vite conserva el aviso no bloqueante de chunk mayor a 500 kB.
+- **Límites:** no se ejecutó RF-22 en navegador/WebGL ni se midieron FPS o memoria. El build no detecta costuras, contraste insuficiente ni errores de muestreo en GPU; VIS-003 permanece activo en APPLY hasta esa evidencia. No se modificó el catálogo ni se publicó.
+
 ## Condiciones conocidas
 
 - Snapshot NASA obtenido el 12 de noviembre de 2026 UTC, no actualizado en vivo: 4.659 sistemas y 6.226 planetas. El porcentaje de cobertura del catálogo mide cuatro atributos planetarios utilizables, no completitud científica ni estelar.
-- Hay colores planos por categoría planetaria, no texturas ni pintado planetario por temperatura, densidad o composición. El color de la esfera estelar es una derivación visual trazable de temperatura/tipo espectral; tamaño, brillo, halo y nebulosa siguen siendo representaciones normalizadas o decorativas.
+- Hay texturas procedurales genéricas por categoría planetaria, pero no representan una superficie observada ni pintan temperatura, densidad o composición. El color de la esfera estelar es una derivación visual trazable de temperatura/tipo espectral; tamaño, brillo, halo y nube celeste siguen siendo representaciones normalizadas o decorativas.
 - En v0.1.2 pasaron build, validación de datos e integridad del ZIP. Las pruebas históricas de proyección/selección fueron comprobaciones con fotogramas simulados, no una suite E2E persistida; QA-001 añade un recorrido de navegador real automatizado mediante DevTools.
 - No se verificó una sesión headed con GPU física; tampoco se midieron FPS/carga, se evaluó con usuarios ni se desplegó. Ver [APPLY.md](APPLY.md).
 
